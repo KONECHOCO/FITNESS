@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>AURA FIT PRO — Multi-Language Fitness & Analytics</title>
+  <meta name="description" content="High performance international fitness app with 3D Muscle Heatmap, Set Tracker, AI Coach, and Macro Nutrition.">
+  <meta name="theme-color" content="#0B0E14">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+  <!-- Application Layout -->
+  <div class="app-layout">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-brand">
+        <div class="brand-logo">
+          <i class="fa-solid fa-bolt logo-icon"></i>
+        </div>
+        <div class="brand-info">
+          <span class="brand-title">AURA<span class="highlight">FIT</span> <span class="badge-pro">PRO</span></span>
+          <span class="brand-subtitle" data-i18n="brand_subtitle">Smart Hypertrophy & Analytics</span>
+        </div>
+      </div>
+
+      <div class="header-actions">
+        <!-- Language Selector Dropdown -->
+        <div class="lang-selector-box">
+          <i class="fa-solid fa-globe lang-icon"></i>
+          <select id="langSelect" class="lang-select">
+            <option value="it">🇮🇹 IT</option>
+            <option value="en">🇬🇧 EN</option>
+            <option value="es">🇪🇸 ES</option>
+            <option value="fr">🇫🇷 FR</option>
+            <option value="de">🇩🇪 DE</option>
+            <option value="pt">🇵🇹 PT</option>
+          </select>
+        </div>
+
+        <div class="streak-badge" id="streakCounter" title="Giorni consecutivi">
+          <i class="fa-solid fa-fire fire-icon"></i>
+          <span id="streakValue">7</span><span data-i18n="days_short">d</span>
+        </div>
+        <button class="icon-btn" id="soundToggleBtn" title="Audio On/Off">
+          <i class="fa-solid fa-volume-high" id="soundIcon"></i>
+        </button>
+        <button class="profile-btn" id="openProfileBtn">
+          <div class="avatar">AF</div>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Dynamic Content Container -->
+    <main class="main-content">
+
+      <!-- ================= TAB 1: DASHBOARD ================= -->
+      <section id="tab-dashboard" class="tab-page active">
+        <!-- Hero Spotlight Banner -->
+        <div class="hero-banner" style="background-image: linear-gradient(180deg, rgba(11,14,20,0.3) 0%, rgba(11,14,20,0.95) 100%), url('assets/images/hero.jpg');">
+          <div class="hero-content">
+            <span class="hero-tag"><i class="fa-solid fa-dumbbell"></i> <span data-i18n="hero_tag">READY TO WORKOUT</span></span>
+            <h1 class="hero-title" id="greetingTitle" data-i18n="hero_title">Ciao, Atleta! 👋</h1>
+            <p class="hero-desc" id="heroDescText" data-i18n="hero_desc">Il tuo livello di recupero muscolare medio è del 88%. Oggi è il giorno perfetto per l'allenamento Petto & Tricipiti.</p>
+            <div class="hero-cta-group">
+              <button class="btn btn-lime btn-lg glow-effect" id="quickStartWorkoutBtn">
+                <i class="fa-solid fa-play"></i> <span data-i18n="start_today_workout">Inizia Allenamento Oggi</span>
+              </button>
+              <button class="btn btn-glass btn-lg" id="generateAiWorkoutBtn">
+                <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-i18n="ai_workout_generator">AI Workout Generator</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Metric Cards Grid -->
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-header">
+              <div class="metric-icon icon-lime"><i class="fa-solid fa-fire"></i></div>
+              <span class="metric-label" data-i18n="metric_calories">Calorie Bruciate</span>
+            </div>
+            <div class="metric-body">
+              <span class="metric-value" id="dashKcalVal">640</span>
+              <span class="metric-unit">kcal</span>
+            </div>
+            <div class="metric-footer">
+              <div class="progress-bar-sm">
+                <div class="progress-fill fill-lime" style="width: 80%;"></div>
+              </div>
+              <span class="subtext" data-i18n="metric_cal_target">80% dell'obiettivo (800 kcal)</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <div class="metric-icon icon-cyan"><i class="fa-solid fa-weight-hanging"></i></div>
+              <span class="metric-label" data-i18n="metric_volume">Volume Totale Settimana</span>
+            </div>
+            <div class="metric-body">
+              <span class="metric-value" id="dashVolumeVal">14.850</span>
+              <span class="metric-unit">kg</span>
+            </div>
+            <div class="metric-footer text-cyan">
+              <i class="fa-solid fa-arrow-trend-up"></i> <span data-i18n="metric_vol_growth">+12% vs scorsa settimana</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <div class="metric-icon icon-gold"><i class="fa-solid fa-trophy"></i></div>
+              <span class="metric-label" data-i18n="metric_prs">Nuovi PR Raggiunti</span>
+            </div>
+            <div class="metric-body">
+              <span class="metric-value" id="dashPrVal">3</span>
+              <span class="metric-unit" data-i18n="records_unit">record</span>
+            </div>
+            <div class="metric-footer text-gold">
+              <i class="fa-solid fa-medal"></i> <span data-i18n="metric_pr_highlight">Panca Piana 100kg!</span>
+            </div>
+          </div>
+
+          <div class="metric-card">
+            <div class="metric-header">
+              <div class="metric-icon icon-purple"><i class="fa-solid fa-heart-pulse"></i></div>
+              <span class="metric-label" data-i18n="metric_recovery">Stato Recupero</span>
+            </div>
+            <div class="metric-body">
+              <span class="metric-value" id="dashRecoveryVal" data-i18n="recovery_optimal">Ottimo</span>
+              <span class="metric-unit">88%</span>
+            </div>
+            <div class="metric-footer text-purple">
+              <i class="fa-solid fa-bolt"></i> <span data-i18n="metric_recovery_ready">Pronti per carico allenante</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Muscle Recovery Heatmap Preview Section -->
+        <div class="section-container">
+          <div class="section-header">
+            <div>
+              <h2 class="section-title"><i class="fa-solid fa-child-reaching text-lime"></i> <span data-i18n="heatmap_title">Heatmap 3D Recupero Muscolare</span></h2>
+              <p class="section-subtitle" data-i18n="heatmap_subtitle">Visualizzazione dinamica dello sforzo accumulate nelle ultime 72 ore</p>
+            </div>
+            <button class="btn btn-outline-lime btn-sm" id="viewFullHeatmapBtn" data-i18n="heatmap_btn">Vedi Dettagli 3D</button>
+          </div>
+
+          <div class="heatmap-preview-card">
+            <div class="body-map-container" id="dashBodyMap">
+              <!-- SVG Muscle Map -->
+            </div>
+            <div class="heatmap-legend-panel">
+              <h3 data-i18n="legend_title">Legenda Sforzo & Recupero</h3>
+              <div class="legend-item">
+                <span class="legend-color color-fresh"></span>
+                <div class="legend-info">
+                  <strong data-i18n="legend_fresh_title">Muscolo Riposato (90-100%)</strong>
+                  <span data-i18n="legend_fresh_desc">Pronto per massimo carico sovra-massimale.</span>
+                </div>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color color-recovering"></span>
+                <div class="legend-info">
+                  <strong data-i18n="legend_rec_title">In Recupero (50-89%)</strong>
+                  <span data-i18n="legend_rec_desc">Recupero sintesi proteica in corso.</span>
+                </div>
+              </div>
+              <div class="legend-item">
+                <span class="legend-color color-fatigued"></span>
+                <div class="legend-info">
+                  <strong data-i18n="legend_fatigue_title">Affaticato / Strenuo (<50%)</strong>
+                  <span data-i18n="legend_fatigue_desc">Consigliato riposo o stire isometrico leggero.</span>
+                </div>
+              </div>
+
+              <div class="quick-stats-box">
+                <div class="qs-item">
+                  <span data-i18n="qs_most_trained">Muscolo Più Allenato:</span>
+                  <strong class="text-lime" data-i18n="qs_chest_abs">Addominali & Panca</strong>
+                </div>
+                <div class="qs-item">
+                  <span data-i18n="qs_fresh_muscle">Muscolo Fresco:</span>
+                  <strong class="text-cyan" data-i18n="qs_legs">Gambe & Quadricipiti</strong>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recommended Workouts Grid -->
+        <div class="section-container">
+          <div class="section-header">
+            <h2 class="section-title"><i class="fa-solid fa-list-check text-lime"></i> <span data-i18n="routines_section_title">Schede di Allenamento Consigliate</span></h2>
+            <button class="btn btn-link" id="navToWorkoutsBtn"><span data-i18n="see_all">Vedi Tutte</span> <i class="fa-solid fa-chevron-right"></i></button>
+          </div>
+
+          <div class="routine-cards-grid" id="dashboardRoutineGrid">
+            <!-- Dynamic workout routine cards populated via JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 2: EXERCISE CATALOG & WORKOUT BUILDER ================= -->
+      <section id="tab-workouts" class="tab-page">
+        <div class="page-title-bar">
+          <div>
+            <h1 class="page-title" data-i18n="catalog_title">Catalogo Esercizi & Schede</h1>
+            <p class="page-subtitle" data-i18n="catalog_subtitle">Oltre 50 esercizi con guida biomeccanica, istruzioni e calcolatore 1RM</p>
+          </div>
+          <button class="btn btn-lime" id="createNewRoutineBtn">
+            <i class="fa-solid fa-plus"></i> <span data-i18n="create_routine_btn">Crea Nuova Scheda</span>
+          </button>
+        </div>
+
+        <!-- Filter & Search Controls -->
+        <div class="filter-search-bar">
+          <div class="search-input-group">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="exerciseSearchInput" placeholder="Cerca esercizio..." data-i18n-ph="search_ph">
+          </div>
+
+          <div class="filter-pills-row" id="muscleFilterPills">
+            <button class="pill-btn active" data-filter="all" data-i18n="filter_all">Tutti i Muscoli</button>
+            <button class="pill-btn" data-filter="Chest" data-i18n="muscle_chest">Petto</button>
+            <button class="pill-btn" data-filter="Back" data-i18n="muscle_back">Dorso</button>
+            <button class="pill-btn" data-filter="Legs" data-i18n="muscle_legs">Gambe</button>
+            <button class="pill-btn" data-filter="Shoulders" data-i18n="muscle_shoulders">Spalle</button>
+            <button class="pill-btn" data-filter="Arms" data-i18n="muscle_arms">Braccia</button>
+            <button class="pill-btn" data-filter="Core" data-i18n="muscle_core">Addome</button>
+          </div>
+
+          <div class="filter-subrow">
+            <select id="equipmentSelectFilter" class="custom-select">
+              <option value="all" data-i18n="equip_all">Tutti gli Attrezzi</option>
+              <option value="Barbell" data-i18n="equip_barbell">Bilanciere</option>
+              <option value="Dumbbell" data-i18n="equip_dumbbell">Manubri</option>
+              <option value="Bodyweight" data-i18n="equip_bodyweight">Corpo Libero (Casa)</option>
+              <option value="Machine" data-i18n="equip_machine">Macchinario / Cavi</option>
+            </select>
+
+            <select id="difficultySelectFilter" class="custom-select">
+              <option value="all" data-i18n="diff_all">Tutte le Difficoltà</option>
+              <option value="Principiante" data-i18n="diff_beginner">Principiante</option>
+              <option value="Intermedio" data-i18n="diff_intermediate">Intermedio</option>
+              <option value="Avanzato" data-i18n="diff_advanced">Avanzato</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Subtabs -->
+        <div class="subtabs-bar">
+          <button class="subtab-btn active" data-subtab="exercise-grid-container">
+            <i class="fa-solid fa-dumbbell"></i> <span data-i18n="subtab_catalog">Catalogo Esercizi</span> (<span id="exerciseCountLabel">0</span>)
+          </button>
+          <button class="subtab-btn" data-subtab="routines-grid-container">
+            <i class="fa-solid fa-folder-open"></i> <span data-i18n="subtab_my_routines">Le Mie Schede</span>
+          </button>
+          <button class="subtab-btn" data-subtab="calculator-container">
+            <i class="fa-solid fa-calculator"></i> <span data-i18n="subtab_1rm">Calcolatore Massimale (1RM)</span>
+          </button>
+        </div>
+
+        <!-- Exercise Grid -->
+        <div id="exercise-grid-container" class="subtab-content active">
+          <div class="exercise-cards-grid" id="exerciseCardsGrid"></div>
+        </div>
+
+        <!-- Routines Grid -->
+        <div id="routines-grid-container" class="subtab-content">
+          <div class="routine-cards-grid" id="allRoutinesGrid"></div>
+        </div>
+
+        <!-- 1RM Calculator Panel -->
+        <div id="calculator-container" class="subtab-content">
+          <div class="calc-wrapper">
+            <div class="calc-card">
+              <h3><i class="fa-solid fa-weight-scale text-lime"></i> <span data-i18n="calc_header">Calcola il Tuo 1RM (Massimale Teorico)</span></h3>
+              <p data-i18n="calc_desc">Inserisci il peso sollevato e le ripetizioni eseguite a cedimento per stimare il massimale teorico su formule Epley, Brzycki e Lander.</p>
+
+              <div class="calc-form">
+                <div class="form-group">
+                  <label for="calcWeight" data-i18n="calc_weight_label">Peso Sollevato (kg)</label>
+                  <input type="number" id="calcWeight" value="80" min="1" step="0.5">
+                </div>
+                <div class="form-group">
+                  <label for="calcReps" data-i18n="calc_reps_label">Ripetizioni Eseguite (Reps)</label>
+                  <input type="number" id="calcReps" value="6" min="1" max="30">
+                </div>
+                <button class="btn btn-lime btn-block" id="runCalcBtn">
+                  <i class="fa-solid fa-calculator"></i> <span data-i18n="calc_btn">Calcola Ora</span>
+                </button>
+              </div>
+
+              <div class="calc-results-box" id="calcResultsBox">
+                <div class="calc-main-result">
+                  <span class="calc-label" data-i18n="calc_result_label">Stima 1RM Massimale:</span>
+                  <span class="calc-value" id="calc1RMVal">96.0 kg</span>
+                </div>
+                <div class="calc-percentages-grid">
+                  <div class="pct-item">
+                    <span data-i18n="pct_95">95% (Forza Max)</span>
+                    <strong id="pct95">91.2 kg</strong>
+                  </div>
+                  <div class="pct-item">
+                    <span data-i18n="pct_85">85% (Ipertrofia Pesante)</span>
+                    <strong id="pct85">81.6 kg</strong>
+                  </div>
+                  <div class="pct-item">
+                    <span data-i18n="pct_75">75% (Ipertrofia Moderata)</span>
+                    <strong id="pct75">72.0 kg</strong>
+                  </div>
+                  <div class="pct-item">
+                    <span data-i18n="pct_65">65% (Resistenza Muscolare)</span>
+                    <strong id="pct65">62.4 kg</strong>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 3: LIVE WORKOUT SESSION PLAYER ================= -->
+      <section id="tab-session" class="tab-page">
+        <div id="noActiveSessionView" class="no-session-card">
+          <div class="no-session-icon">
+            <i class="fa-solid fa-stopwatch text-lime"></i>
+          </div>
+          <h2 data-i18n="no_session_title">Nessun Allenamento in Corso</h2>
+          <p data-i18n="no_session_desc">Seleziona una scheda o un allenamento rapido per avviare il tracciamento interattivo delle serie e dei tempi di recupero.</p>
+          <button class="btn btn-lime btn-lg glow-effect" id="startSampleSessionBtn">
+            <i class="fa-solid fa-play"></i> <span data-i18n="start_chest_sample">Avvia Allenamento "Petto & Tricipiti Heavy"</span>
+          </button>
+        </div>
+
+        <div id="activeSessionView" class="active-session-wrapper hidden">
+          <!-- Session Top Info Bar -->
+          <div class="session-top-bar">
+            <div class="session-info">
+              <span class="session-status-badge"><i class="fa-solid fa-circle-dot pulse-icon"></i> <span data-i18n="status_in_progress">IN CORSO</span></span>
+              <h1 class="session-title" id="activeRoutineTitle">Petto & Tricipiti Hypertrophy</h1>
+            </div>
+            <div class="session-timer-box">
+              <i class="fa-solid fa-stopwatch"></i>
+              <span id="sessionDurationClock">00:00</span>
+            </div>
+            <button class="btn btn-danger btn-sm" id="finishWorkoutBtn">
+              <i class="fa-solid fa-check"></i> <span data-i18n="finish_workout_btn">Termina Workout</span>
+            </button>
+          </div>
+
+          <!-- Active Session Content -->
+          <div class="session-main-layout">
+            <div class="session-exercises-list" id="sessionExercisesContainer"></div>
+
+            <div class="session-sidebar">
+              <!-- Live Rest Timer Widget -->
+              <div class="rest-timer-widget">
+                <div class="rt-header">
+                  <i class="fa-solid fa-hourglass-half text-lime"></i>
+                  <span data-i18n="rest_timer_title">Timer Recupero Serie</span>
+                </div>
+                <div class="rt-circle-container">
+                  <svg class="rt-svg" viewBox="0 0 100 100">
+                    <circle class="rt-bg-circle" cx="50" cy="50" r="45"></circle>
+                    <circle class="rt-progress-circle" id="rtProgressCircle" cx="50" cy="50" r="45"></circle>
+                  </svg>
+                  <div class="rt-display">
+                    <span id="rtTimeRemaining">00:00</span>
+                    <small id="rtTargetLabel" data-i18n="timer_ready">Pronto</small>
+                  </div>
+                </div>
+                <div class="rt-controls">
+                  <button class="btn btn-sm btn-dark" id="rtMinus15">-15s</button>
+                  <button class="btn btn-sm btn-lime" id="rtToggleBtn"><i class="fa-solid fa-pause"></i> <span data-i18n="pause_btn">Pausa</span></button>
+                  <button class="btn btn-sm btn-dark" id="rtPlus15">+15s</button>
+                </div>
+                <div class="rt-presets">
+                  <button class="preset-btn" data-sec="45">45s</button>
+                  <button class="preset-btn active" data-sec="60">60s</button>
+                  <button class="preset-btn" data-sec="90">90s</button>
+                  <button class="preset-btn" data-sec="120">120s</button>
+                </div>
+              </div>
+
+              <!-- AI Form Cue -->
+              <div class="session-ai-tip-card">
+                <div class="ai-tip-header">
+                  <i class="fa-solid fa-robot text-cyan"></i>
+                  <strong>FIT-AI Form Cue</strong>
+                </div>
+                <p id="sessionAiTipText" data-i18n="form_cue_bench">Assicurati di mantenere le scapole addotte e i gomiti a 45° durante la panca piana per massima attivazione pettorale.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 4: NUTRITION & MACROS ================= -->
+      <section id="tab-nutrition" class="tab-page">
+        <div class="page-title-bar">
+          <div>
+            <h1 class="page-title" data-i18n="nutri_title">Nutrizione & Macro Dieta</h1>
+            <p class="page-subtitle" data-i18n="nutri_subtitle">Pianifica le calorie e i macronutrienti giornalieri con database alimenti integrato</p>
+          </div>
+          <button class="btn btn-lime" id="openLogFoodModalBtn">
+            <i class="fa-solid fa-utensils"></i> <span data-i18n="add_food_btn">Aggiungi Alimento</span>
+          </button>
+        </div>
+
+        <!-- Nutrition Overview Header Card -->
+        <div class="nutrition-hero-card" style="background-image: linear-gradient(90deg, rgba(11,14,20,0.95) 0%, rgba(11,14,20,0.7) 100%), url('assets/images/nutrition.jpg');">
+          <div class="nutri-hero-content">
+            <div class="calorie-ring-box">
+              <svg class="calorie-svg" viewBox="0 0 120 120">
+                <circle class="c-bg" cx="60" cy="60" r="52"></circle>
+                <circle class="c-fill" id="calorieCircleFill" cx="60" cy="60" r="52"></circle>
+              </svg>
+              <div class="calorie-display">
+                <span class="c-num" id="nutriKcalLogged">1.940</span>
+                <span class="c-total">/ 2.500 kcal</span>
+              </div>
+            </div>
+
+            <div class="macros-bars-group">
+              <div class="macro-row">
+                <div class="macro-meta">
+                  <span><span data-i18n="macro_protein">Proteine</span> <i class="fa-solid fa-drumstick-bite text-lime"></i></span>
+                  <strong><span id="proteinVal">165</span>g / 180g</strong>
+                </div>
+                <div class="progress-bar-sm">
+                  <div class="progress-fill fill-lime" id="proteinFill" style="width: 91%;"></div>
+                </div>
+              </div>
+
+              <div class="macro-row">
+                <div class="macro-meta">
+                  <span><span data-i18n="macro_carbs">Carboidrati</span> <i class="fa-solid fa-wheat-awn text-cyan"></i></span>
+                  <strong><span id="carbsVal">210</span>g / 280g</strong>
+                </div>
+                <div class="progress-bar-sm">
+                  <div class="progress-fill fill-cyan" id="carbsFill" style="width: 75%;"></div>
+                </div>
+              </div>
+
+              <div class="macro-row">
+                <div class="macro-meta">
+                  <span><span data-i18n="macro_fats">Grassi Salutari</span> <i class="fa-solid fa-avocado text-gold"></i></span>
+                  <strong><span id="fatsVal">52</span>g / 70g</strong>
+                </div>
+                <div class="progress-bar-sm">
+                  <div class="progress-fill fill-gold" id="fatsFill" style="width: 74%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Meals Logged Today -->
+        <div class="section-container">
+          <div class="section-header">
+            <h2 class="section-title"><i class="fa-solid fa-clipboard-list text-lime"></i> <span data-i18n="meals_today_title">Diario Alimenti Oggi</span></h2>
+            <div class="water-tracker-inline">
+              <i class="fa-solid fa-glass-water text-cyan"></i>
+              <span><span data-i18n="water_label">Idratazione</span>: <strong><span id="waterLiters">2.5</span>L</strong> / 3.0L</span>
+              <button class="btn btn-sm btn-dark" id="addWaterBtn">+250ml</button>
+            </div>
+          </div>
+
+          <div class="meals-list-grid" id="todayMealsContainer"></div>
+        </div>
+      </section>
+
+      <!-- ================= TAB 5: AI COACH & ANALYTICS ================= -->
+      <section id="tab-aicoach" class="tab-page">
+        <div class="page-title-bar">
+          <div>
+            <h1 class="page-title" data-i18n="ai_title">FIT-AI Pro Coach & Biomeccanica</h1>
+            <p class="page-subtitle" data-i18n="ai_subtitle">Assistente virtuale per consigli di sovraccarico progressivo, tecnica e piani nutrizionali</p>
+          </div>
+        </div>
+
+        <div class="ai-chat-layout">
+          <div class="chat-card">
+            <div class="chat-header">
+              <div class="chat-bot-avatar">
+                <i class="fa-solid fa-robot"></i>
+              </div>
+              <div class="chat-bot-info">
+                <h3>FIT-AI Master Trainer</h3>
+                <span><i class="fa-solid fa-circle text-lime status-dot"></i> <span data-i18n="ai_active_status">Attivo & Analizzando i tuoi dati fisici</span></span>
+              </div>
+            </div>
+
+            <div class="chat-messages-container" id="chatMessagesBox"></div>
+
+            <div class="chat-suggestions-row">
+              <button class="chip-btn" data-prompt="Come posso aumentare il massimale di Panca Piana?" data-i18n="chip_bench">🚀 Aumentare Massimale Panca</button>
+              <button class="chip-btn" data-prompt="Qual è il miglior tempo di riposo per ipertrofia muscolare?" data-i18n="chip_rest">⏱️ Tempo Riposo Ipertrofia</button>
+              <button class="chip-btn" data-prompt="Cosa mangiare prima e dopo l'allenamento?" data-i18n="chip_nutrition">🥗 Pre & Post Workout Nutrizione</button>
+            </div>
+
+            <div class="chat-input-bar">
+              <input type="text" id="chatUserInput" placeholder="Fai una domanda..." data-i18n-ph="chat_ph">
+              <button class="btn btn-lime" id="sendChatBtn">
+                <i class="fa-solid fa-paper-plane"></i>
+              </button>
+            </div>
+          </div>
+
+          <div class="achievements-sidebar">
+            <div class="achieve-card">
+              <h3><i class="fa-solid fa-award text-gold"></i> <span data-i18n="achievements_title">Traguardi & Badge Sbloccati</span></h3>
+              <div class="badges-grid" id="badgesContainer"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- Bottom Navigation Bar -->
+    <nav class="bottom-nav">
+      <button class="nav-item active" data-tab="tab-dashboard">
+        <i class="fa-solid fa-house"></i>
+        <span data-i18n="nav_home">Home</span>
+      </button>
+      <button class="nav-item" data-tab="tab-workouts">
+        <i class="fa-solid fa-dumbbell"></i>
+        <span data-i18n="nav_exercises">Esercizi</span>
+      </button>
+      <button class="nav-item session-nav-item" data-tab="tab-session">
+        <div class="session-nav-btn">
+          <i class="fa-solid fa-stopwatch"></i>
+        </div>
+        <span data-i18n="nav_workout">Workout</span>
+      </button>
+      <button class="nav-item" data-tab="tab-nutrition">
+        <i class="fa-solid fa-apple-whole"></i>
+        <span data-i18n="nav_diet">Dieta</span>
+      </button>
+      <button class="nav-item" data-tab="tab-aicoach">
+        <i class="fa-solid fa-robot"></i>
+        <span>FIT-AI</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- MODALS -->
+  <div class="modal-backdrop hidden" id="addFoodModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3><i class="fa-solid fa-utensils text-lime"></i> <span data-i18n="modal_food_title">Aggiungi Alimento alla Dieta</span></h3>
+        <button class="close-modal-btn" id="closeFoodModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="foodNameInput" data-i18n="modal_food_name">Nome Alimento / Piatto</label>
+          <input type="text" id="foodNameInput" placeholder="es. Petto di Pollo">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="foodKcalInput" data-i18n="modal_food_kcal">Calorie (kcal)</label>
+            <input type="number" id="foodKcalInput" placeholder="250">
+          </div>
+          <div class="form-group">
+            <label for="foodProteinInput" data-i18n="modal_food_p">Proteine (g)</label>
+            <input type="number" id="foodProteinInput" placeholder="32">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="foodCarbsInput" data-i18n="modal_food_c">Carboidrati (g)</label>
+            <input type="number" id="foodCarbsInput" placeholder="0">
+          </div>
+          <div class="form-group">
+            <label for="foodFatsInput" data-i18n="modal_food_f">Grassi (g)</label>
+            <input type="number" id="foodFatsInput" placeholder="4">
+          </div>
+        </div>
+
+        <div class="quick-food-presets">
+          <small data-i18n="modal_food_presets">Cibi Rapidi Frequenti:</small>
+          <div class="preset-chips">
+            <button class="chip-food-btn" data-name="Shake Proteine Whey" data-kcal="120" data-p="24" data-c="2" data-f="1.5">🥤 Shake Whey (24g P)</button>
+            <button class="chip-food-btn" data-name="Riso Basmati & Pollo" data-kcal="450" data-p="40" data-c="50" data-f="5">🍗 Riso & Pollo (40g P)</button>
+            <button class="chip-food-btn" data-name="Uova Sode (3 Uova)" data-kcal="210" data-p="18" data-c="1" data-f="15">🥚 3 Uova Sode (18g P)</button>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-dark" id="cancelFoodModalBtn" data-i18n="btn_cancel">Annulla</button>
+        <button class="btn btn-lime" id="confirmAddFoodBtn" data-i18n="btn_save_food">Salva Alimento</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
