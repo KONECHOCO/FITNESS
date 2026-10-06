@@ -1,0 +1,44 @@
+AuraLift est votre coach personnel de poche, à la salle ou à la maison : enregistrez chaque série et suivez vos vrais progrès, calculés uniquement à partir de vos données.
+
+PROGRAMMES SALLE ET MAISON
+• 12 programmes prêts : full body, push/pull/legs, haut/bas du corps, force 5×5, fessiers, poids du corps, haltères, brûle-graisse et abdos
+• Générateur de séances : choisit les exercices selon votre objectif, votre matériel et les muscles déjà récupérés
+• Créez et modifiez vos propres programmes
+• Plus de 60 exercices avec instructions et carte des muscles sollicités
+
+SUIVI DE SÉANCE
+• Poids, répétitions et séries terminées en quelques touches
+• Colonne « Précédent » avec les charges de la dernière fois
+• Conseils de surcharge progressive : l'app vous dit quand augmenter la charge
+• Minuteur de repos automatique avec son, vibration et notification
+• Records personnels détectés automatiquement
+
+PROGRÈS ET RÉCUPÉRATION
+• Carte de récupération musculaire calculée sur les séries des 4 derniers jours
+• Volume hebdomadaire, séries par muscle, 1RM estimé par exercice, poids corporel
+• Calculateur de 1RM avec les formules d'Epley, Brzycki et Lander
+• Historique complet, semaines d'affilée et succès
+
+NUTRITION
+• Objectifs de calories et de macros calculés avec la formule de Mifflin-St Jeor
+• Journal du petit-déjeuner, déjeuner, dîner et collations avec base d'aliments courants et aliments personnalisés
+• Suivi de l'hydratation
+
+SMART COACH
+• Analyse vos séances : récupération, stagnations, progrès, volume par muscle, protéines
+• Répond à vos questions sur l'entraînement et la nutrition avec des recommandations fondées sur la science et personnalisées avec vos données
+• Informations générales qui ne remplacent pas un avis médical
+
+ET AUSSI
+• Rappels d'entraînement, kg ou lb, 6 langues
+• Vos données restent sur votre appareil : aucun compte nécessaire
+
+VERSION GRATUITE ET PREMIUM
+AuraLift est gratuite, avec des publicités non personnalisées et quelques limites (3 programmes personnels, 1 séance générée par jour, historique des 30 derniers jours).
+AuraLift Premium supprime la publicité et débloque programmes et générateur illimités, historique complet, graphiques avancés, toute l'analyse du Smart Coach et l'export des données.
+Premium mensuel ou annuel, avec 7 jours d'essai gratuit. Le paiement est débité sur votre identifiant Apple à la fin de l'essai. L'abonnement se renouvelle automatiquement sauf s'il est désactivé au moins 24 heures avant la fin de la période en cours. Gérez-le ou résiliez-le dans les réglages de votre compte App Store.
+
+Conditions d'utilisation : https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Confidentialité : https://konechoco.github.io/auralift/privacy-policy.html
+
+Consultez votre médecin avant de commencer un nouveau programme d'entraînement ou d'alimentation.

@@ -1,0 +1,42 @@
+{
+  "name": "auralift",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "node --test tests/",
+    "cap:sync": "npm run build && cap sync ios",
+    "icon": "node scripts/render-icon.mjs && npx @capacitor/assets generate --ios --iconBackgroundColor \"#0B0E14\" --splashBackgroundColor \"#0B0E14\"",
+    "metadata": "python store/build_metadata.py",
+    "screenshots": "node scripts/capture-store-screenshots.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@capacitor-community/admob": "^8.2.0",
+    "@capacitor/app": "^8.1.2",
+    "@capacitor/core": "^8.5.2",
+    "@capacitor/filesystem": "^8.1.4",
+    "@capacitor/haptics": "^8.0.2",
+    "@capacitor/ios": "^8.5.2",
+    "@capacitor/local-notifications": "^8.3.1",
+    "@capacitor/preferences": "^8.0.1",
+    "@capacitor/share": "^8.0.3",
+    "@capacitor/status-bar": "^8.0.4",
+    "@capgo/native-purchases": "^8.8.1",
+    "@fontsource/inter": "^5.3.0",
+    "@fontsource/outfit": "^5.3.0",
+    "@fortawesome/fontawesome-free": "^7.3.1"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.5.2",
+    "playwright": "^1.63.0",
+    "sharp": "^0.35.5",
+    "vite": "^8.3.3"
+  }
+}

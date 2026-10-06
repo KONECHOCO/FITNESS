@@ -1,0 +1,74 @@
+# AuraLift — build iOS per App Store Connect (TestFlight).
+#
+# Prima della prima build, in Codemagic:
+#  1. Team settings › Code signing identities › iOS provisioning profiles: crea/recupera dal Developer Portal
+#     un profilo "App Store" per com.ikonet.auralift e chiamalo "auralift_appstore".
+#  2. Environment variables › gruppo "auralift_admob" con:
+#       ADMOB_APP_ID_IOS            es. ca-app-pub-1151868778464777~XXXXXXXXXX  (app "AuraLift iOS" in AdMob)
+#       VITE_ADMOB_IOS_BANNER       es. ca-app-pub-1151868778464777/XXXXXXXXXX
+#       VITE_ADMOB_IOS_INTERSTITIAL es. ca-app-pub-1151868778464777/XXXXXXXXXX
+#     Gli ID AdMob non sono segreti, ma senza di essi la build si ferma: niente annunci di test in produzione.
+workflows:
+  ios-app-store:
+    name: AuraLift iOS App Store
+    max_build_duration: 60
+    instance_type: mac_mini_m4
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+      cancel_previous_builds: true
+    integrations:
+      app_store_connect: Ikonet Solutions
+    environment:
+      groups:
+        - auralift_admob
+      ios_signing:
+        provisioning_profiles:
+          - auralift_appstore
+        certificates:
+          - ithelpdesk_distribution_20260916
+      vars:
+        XCODE_PROJECT: ios/App/App.xcodeproj
+        XCODE_SCHEME: App
+        BUNDLE_ID: com.ikonet.auralift
+      xcode: latest
+      node: 22
+    scripts:
+      - name: Check AdMob IDs
+        script: |
+          for v in ADMOB_APP_ID_IOS VITE_ADMOB_IOS_BANNER VITE_ADMOB_IOS_INTERSTITIAL; do
+            if [ -z "${!v}" ]; then echo "Manca $v nel gruppo auralift_admob"; exit 1; fi
+          done
+      - name: Install npm dependencies
+        script: npm ci
+      - name: Unit tests
+        script: npm test
+      - name: Build web app and sync iOS project
+        script: |
+          npm run build
+          npx cap sync ios
+      - name: Set real AdMob app ID
+        script: /usr/libexec/PlistBuddy -c "Set :GADApplicationIdentifier $ADMOB_APP_ID_IOS" ios/App/App/Info.plist
+      - name: Set up signing profiles
+        script: xcode-project use-profiles
+      - name: Apply version and build number
+        script: |
+          cd ios/App
+          agvtool new-marketing-version "$(node -p "require('../../package.json').version")"
+          agvtool new-version -all "$BUILD_NUMBER"
+      - name: Build IPA for App Store Connect
+        script: |
+          xcode-project build-ipa \
+            --project "$CM_BUILD_DIR/$XCODE_PROJECT" \
+            --scheme "$XCODE_SCHEME"
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+    publishing:
+      app_store_connect:
+        auth: integration
+        submit_to_testflight: true
+        submit_to_app_store: false

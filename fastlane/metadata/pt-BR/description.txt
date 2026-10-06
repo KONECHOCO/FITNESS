@@ -1,0 +1,44 @@
+AuraLift é o seu personal trainer de bolso para a academia ou em casa: registre cada série e veja seu progresso real, calculado só com os seus dados.
+
+FICHAS DE ACADEMIA E CASA
+• 12 fichas prontas: corpo inteiro, push/pull/legs, superiores/inferiores, força 5×5, glúteos, peso corporal, halteres, queima de gordura e abdômen
+• Gerador de treinos: escolhe os exercícios de acordo com objetivo, equipamentos e músculos já recuperados
+• Crie e edite suas próprias fichas
+• Mais de 60 exercícios com instruções e mapa dos músculos trabalhados
+
+REGISTRO DE TREINO
+• Carga, repetições e séries concluídas em poucos toques
+• Coluna "Anterior" com as cargas da última vez
+• Sugestões de sobrecarga progressiva: o app avisa quando aumentar a carga
+• Timer de descanso automático com som, vibração e notificação
+• Recordes pessoais detectados automaticamente
+
+PROGRESSO E RECUPERAÇÃO
+• Mapa de recuperação muscular calculado com as séries dos últimos 4 dias
+• Volume semanal, séries por músculo, 1RM estimado por exercício, peso corporal
+• Calculadora de 1RM com as fórmulas de Epley, Brzycki e Lander
+• Histórico completo, semanas seguidas e conquistas
+
+NUTRIÇÃO
+• Metas de calorias e macros calculadas com a fórmula de Mifflin-St Jeor
+• Diário de café da manhã, almoço, jantar e lanches com base de alimentos comuns e alimentos personalizados
+• Contador de água
+
+SMART COACH
+• Analisa seus treinos: recuperação, estagnação, progresso, volume por músculo, proteínas
+• Responde perguntas sobre treino e alimentação com orientações baseadas em estudos científicos e personalizadas com seus dados
+• Informações gerais que não substituem a orientação médica
+
+E MAIS
+• Lembretes de treino, kg ou lb, 6 idiomas
+• Seus dados ficam no seu aparelho: sem necessidade de conta
+
+VERSÃO GRATUITA E PREMIUM
+O AuraLift é gratuito, com anúncios não personalizados e alguns limites (3 fichas próprias, 1 treino gerado por dia, histórico dos últimos 30 dias).
+O AuraLift Premium remove os anúncios e libera fichas e gerador ilimitados, histórico completo, gráficos avançados, todas as análises do Smart Coach e exportação de dados.
+Premium mensal ou anual, com 7 dias de teste grátis. O pagamento é cobrado no seu ID Apple ao fim do teste. A assinatura é renovada automaticamente, a menos que seja desativada pelo menos 24 horas antes do fim do período atual. Gerencie ou cancele nos ajustes da sua conta da App Store.
+
+Termos de uso: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Privacidade: https://konechoco.github.io/auralift/privacy-policy.html
+
+Consulte seu médico antes de iniciar um novo programa de treino ou alimentação.

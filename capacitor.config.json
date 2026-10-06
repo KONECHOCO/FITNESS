@@ -1,0 +1,9 @@
+{
+  "appId": "com.ikonet.auralift",
+  "appName": "AuraLift",
+  "webDir": "dist",
+  "ios": { "contentInset": "never", "backgroundColor": "#0b0e14", "scheme": "AuraLift" },
+  "plugins": {
+    "LocalNotifications": { "iconColor": "#c6f24e" }
+  }
+}

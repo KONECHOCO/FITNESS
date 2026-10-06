@@ -1,0 +1,23 @@
+# Dipendenze e build
+node_modules/
+dist/
+
+# Variabili locali
+.env
+.env.local
+.env.*.local
+
+# Log ed editor
+*.log
+npm-debug.log*
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Output nativi generati
+ios/App/App/public/
+ios/App/App/capacitor.config.json
+ios/App/App/config.xml
+ios/DerivedData/
+ios/App/build/

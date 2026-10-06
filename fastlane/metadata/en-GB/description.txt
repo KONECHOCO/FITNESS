@@ -1,0 +1,44 @@
+AuraLift is your pocket personal trainer for the gym or at home: log every set and see real progress, calculated only from your own data.
+
+GYM AND HOME PLANS
+• 12 ready-made plans: full body, push/pull/legs, upper/lower, 5×5 strength, glutes, bodyweight, dumbbells, fat burner and abs
+• Workout generator: picks exercises based on your goal, equipment and which muscles have recovered
+• Build and edit your own routines
+• 60+ exercises with instructions and a map of the muscles worked
+
+WORKOUT LOGGER
+• Weight, reps and completed sets in a few taps
+• "Previous" column showing last session's numbers
+• Progressive overload suggestions that tell you when to add weight
+• Automatic rest timer with sound, vibration and notification
+• Personal records detected automatically
+
+PROGRESS AND RECOVERY
+• Muscle recovery map calculated from the sets of the last 4 days
+• Weekly volume, sets per muscle, estimated 1RM per exercise, body weight
+• 1RM calculator with the Epley, Brzycki and Lander formulas
+• Full history, week streaks and achievements
+
+NUTRITION
+• Calorie and macro targets calculated with the Mifflin-St Jeor formula
+• Food diary for breakfast, lunch, dinner and snacks with a database of common foods plus custom foods
+• Water tracker
+
+SMART COACH
+• Analyses your workouts: recovery, plateaus, progress, volume per muscle, protein
+• Answers training and nutrition questions with evidence-based guidelines personalised with your data
+• General information, not a substitute for medical advice
+
+MORE
+• Workout reminders, kg or lb, 6 languages
+• Your data stays on your device: no account required
+
+FREE AND PREMIUM
+AuraLift is free, with non-personalised ads and some limits (3 custom routines, 1 generated workout per day, last 30 days of history).
+AuraLift Premium removes ads and unlocks unlimited routines and generator, full history, advanced charts, the complete Smart Coach analysis and data export.
+Premium is available monthly or yearly with a 7-day free trial. Payment is charged to your Apple ID when the trial ends. Subscriptions renew automatically unless turned off at least 24 hours before the end of the current period. Manage or cancel in your App Store account settings.
+
+Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
+Privacy Policy: https://konechoco.github.io/auralift/privacy-policy.html
+
+Consult your doctor before starting a new exercise or nutrition program.
