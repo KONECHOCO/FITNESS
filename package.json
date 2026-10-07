@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "test": "node --test tests/",
+    "test": "node --test tests/calc.test.js tests/i18n.test.js",
     "cap:sync": "npm run build && cap sync ios",
     "icon": "node scripts/render-icon.mjs && npx @capacitor/assets generate --ios --iconBackgroundColor \"#0B0E14\" --splashBackgroundColor \"#0B0E14\"",
     "metadata": "python store/build_metadata.py",
