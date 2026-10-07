@@ -1,13 +1,8 @@
 # AuraLift — build iOS per App Store Connect (TestFlight).
 #
-# Prima della prima build, in Codemagic:
-#  1. Team settings › Code signing identities › iOS provisioning profiles: crea/recupera dal Developer Portal
-#     un profilo "App Store" per com.ikonet.auralift e chiamalo "auralift_appstore".
-#  2. Environment variables › gruppo "auralift_admob" con:
-#       ADMOB_APP_ID_IOS            es. ca-app-pub-1151868778464777~XXXXXXXXXX  (app "AuraLift iOS" in AdMob)
-#       VITE_ADMOB_IOS_BANNER       es. ca-app-pub-1151868778464777/XXXXXXXXXX
-#       VITE_ADMOB_IOS_INTERSTITIAL es. ca-app-pub-1151868778464777/XXXXXXXXXX
-#     Gli ID AdMob non sono segreti, ma senza di essi la build si ferma: niente annunci di test in produzione.
+# Prerequisiti (già configurati): profilo "auralift_appstore" (App Store, com.ikonet.auralift) e certificato
+# "ithelpdesk_distribution_20260916" in Codemagic › Code signing identities.
+# Gli ID AdMob reali (non segreti) sono in .env.production e ios/App/App/Info.plist.
 workflows:
   ios-app-store:
     name: AuraLift iOS App Store
@@ -23,8 +18,6 @@ workflows:
     integrations:
       app_store_connect: Ikonet Solutions
     environment:
-      groups:
-        - auralift_admob
       ios_signing:
         provisioning_profiles:
           - auralift_appstore
@@ -37,11 +30,10 @@ workflows:
       xcode: latest
       node: 22
     scripts:
-      - name: Check AdMob IDs
+      - name: Check AdMob IDs (no test ads in production)
         script: |
-          for v in ADMOB_APP_ID_IOS VITE_ADMOB_IOS_BANNER VITE_ADMOB_IOS_INTERSTITIAL; do
-            if [ -z "${!v}" ]; then echo "Manca $v nel gruppo auralift_admob"; exit 1; fi
-          done
+          grep -q "^VITE_ADMOB_IOS_BANNER=ca-app-pub-1151868778464777/" .env.production
+          grep -q "ca-app-pub-1151868778464777~" ios/App/App/Info.plist
       - name: Install npm dependencies
         script: npm ci
       - name: Unit tests
@@ -50,8 +42,6 @@ workflows:
         script: |
           npm run build
           npx cap sync ios
-      - name: Set real AdMob app ID
-        script: /usr/libexec/PlistBuddy -c "Set :GADApplicationIdentifier $ADMOB_APP_ID_IOS" ios/App/App/Info.plist
       - name: Set up signing profiles
         script: xcode-project use-profiles
       - name: Apply version and build number
