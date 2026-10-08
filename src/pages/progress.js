@@ -16,13 +16,13 @@ function overview() {
   const weeks = volumeByWeek(workouts, 8).map(w => ({ label: fmtDate(w.week, { day: 'numeric', month: 'numeric' }), value: Math.round(toUnit(w.volume)) }));
   const sets = setsPerMuscle(workouts, Date.now() - 7 * DAY_MS);
   const badges = computeBadges({ profile, workouts, nutritionDays: nutrition.days });
-  return `<section class="card"><div class="card-h"><h3>${esc(t('pr_weekly_volume'))}</h3><span class="muted small">${esc(unit())}</span></div>
+  return `<div class="cols"><div class="col"><section class="card"><div class="card-h"><h3>${esc(t('pr_weekly_volume'))}</h3><span class="muted small">${esc(unit())}</span></div>
       ${workouts.length ? barChart(weeks, { fmt: v => (v >= 1000 ? `${fmtNum(v / 1000, 1)}k` : String(v)) }) : `<p class="muted">${esc(t('pr_no_workouts'))}</p>`}</section>
     <section class="card"><div class="card-h"><h3>${esc(t('pr_weekly_sets'))}</h3></div>
       ${isPremium() ? `${hBars(MUSCLES.map(m => ({ label: muscleName(m), value: sets[m], text: fmtNum(sets[m], 1) })))}<p class="muted small">${esc(t('pr_sets_hint'))}</p>` : premiumLock(t('pr_sets_hint'))}</section>
-    <section class="card"><div class="card-h"><h3>${esc(t('pr_badges'))}</h3><span class="muted small">${badges.filter(b => b.unlocked).length}/${badges.length}</span></div>
+    </div><div class="col"><section class="card"><div class="card-h"><h3>${esc(t('pr_badges'))}</h3><span class="muted small">${badges.filter(b => b.unlocked).length}/${badges.length}</span></div>
       <div class="badges">${badges.map(b => `<div class="badge ${b.unlocked ? 'on' : ''}"><span class="b-ic">${b.icon}</span><span class="b-t">${esc(t(`b_${b.id}`))}</span>
-        ${b.unlocked ? '' : `<div class="meter sm"><div style="width:${Math.round(b.progress * 100)}%"></div></div>`}</div>`).join('')}</div></section>`;
+        ${b.unlocked ? '' : `<div class="meter sm"><div style="width:${Math.round(b.progress * 100)}%"></div></div>`}</div>`).join('')}</div></section></div></div>`;
 }
 
 function history() {

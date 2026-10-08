@@ -82,7 +82,7 @@ export function render() {
     `<button class="btn btn-accent" data-act="nav" data-tab="train">${esc(t('train_programs'))}</button>`)}</section>` : '';
 
   return `<div class="greet"><h1>${greeting()}</h1><p class="muted">${esc(fmtDate(Date.now(), { weekday: 'long', day: 'numeric', month: 'long' }))}</p></div>
-    ${suggested}${empty}${stats}${coach}${recovery}${lastCard}${upsell}`;
+    <div class="cols"><div class="col">${suggested}${empty}${stats}${coach}${upsell}</div><div class="col">${recovery}${lastCard}</div></div>`;
 }
 
 export const actions = {};

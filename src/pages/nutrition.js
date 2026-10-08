@@ -60,7 +60,7 @@ export function render() {
     <div class="date-nav"><button class="icon-btn" data-act="nu-day" data-d="-1" aria-label="${esc(t('back'))}">${ic('chevron-left')}</button>
       <strong>${esc(dateLabel(key))}</strong>
       <button class="icon-btn" data-act="nu-day" data-d="1" ${key >= dayKey() ? 'disabled' : ''} aria-label="${esc(t('next'))}">${ic('chevron-right')}</button></div>
-    <section class="card nu-summary">
+    <div class="cols"><div class="col"><section class="card nu-summary">
       <div class="ring-box">${ring(tot.kcal, tg?.kcal)}<div class="ring-c"><strong>${tot.kcal}</strong><span>${tg ? `/ ${tg.kcal} ${esc(t('kcal'))}` : esc(t('kcal'))}</span></div></div>
       <div class="macros">
         ${tg ? `<p class="${remaining < 0 ? 'warn' : 'muted'} small">${esc(remaining < 0 ? t('nu_over') : t('nu_remaining'))}: <b>${Math.abs(remaining)} ${esc(t('kcal'))}</b></p>` : `<p class="muted small">${esc(t('nu_no_profile'))}</p>`}
@@ -71,7 +71,7 @@ export function render() {
       <div class="glasses">${Array.from({ length: glasses }, (_, i) => `<span class="${i < filled ? 'on' : ''}">${ic('glass-water')}</span>`).join('')}</div>
       <div class="row gap"><button class="btn btn-ghost btn-sm" data-act="water" data-d="-250">−250 ml</button><button class="btn btn-accent btn-sm" data-act="water" data-d="250">+250 ml</button></div>
     </section>
-    ${meals}
+    </div><div class="col">${meals}</div></div>
     <p class="muted small center">${esc(t('nu_source'))}</p>`;
 }
 

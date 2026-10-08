@@ -1,4 +1,5 @@
-// Screenshot App Store per iPhone 6,9" (1320×2868), in tutte le lingue, dall'app reale con dati demo.
+// Screenshot App Store per iPhone 6,9" (1320×2868) o iPad 13" (DEVICE=ipad, 2064×2752), in tutte le lingue,
+// dall'app reale con dati demo.
 // Prerequisito: `npm run dev -- --port 5188` avviato.
 // Uso: node scripts/capture-store-screenshots.mjs [it en es fr de pt]
 import { chromium } from 'playwright';
@@ -78,10 +79,16 @@ const CAPTIONS = {
 
 const ORDER = ['home', 'workout', 'recovery', 'progress', 'strength', 'programs', 'nutrition', 'coach'];
 
+const IPAD = process.env.DEVICE === 'ipad';
+const D = IPAD
+  ? { vw: 1032, vh: 1376, dpr: 2, W: 2064, H: 2868 - 116, suffix: 'ipad_2064x2752', h1: 132, p: 62, top: 190, frameTop: 600, frameW: 1560, radius: 70, pad: 28 }
+  : { vw: 430, vh: 932, dpr: 3, W: 1320, H: 2868, suffix: '1320x2868', h1: 104, p: 50, top: 150, frameTop: 560, frameW: 1000, radius: 118, pad: 26 };
+D.frameH = Math.round((D.frameW - 2 * D.pad) * D.vh / D.vw) + 2 * D.pad;
+
 const browser = await chromium.launch();
-const ctx = await browser.newContext({ viewport: { width: 430, height: 932 }, deviceScaleFactor: 3, isMobile: true, hasTouch: true });
+const ctx = await browser.newContext({ viewport: { width: D.vw, height: D.vh }, deviceScaleFactor: D.dpr, isMobile: !IPAD, hasTouch: true });
 const page = await ctx.newPage();
-const composer = await browser.newPage({ viewport: { width: 1320, height: 2868 }, deviceScaleFactor: 1 });
+const composer = await browser.newPage({ viewport: { width: D.W, height: D.H }, deviceScaleFactor: 1 });
 const font = await readFile('node_modules/@fontsource/outfit/files/outfit-latin-700-normal.woff2');
 const fontInter = await readFile('node_modules/@fontsource/inter/files/inter-latin-500-normal.woff2');
 const fontCss = `@font-face{font-family:O;src:url(data:font/woff2;base64,${font.toString('base64')})}@font-face{font-family:I;src:url(data:font/woff2;base64,${fontInter.toString('base64')})}`;
@@ -136,12 +143,12 @@ async function scene(name) {
 async function compose(raw, [title, sub], file) {
   const b64 = raw.toString('base64');
   await composer.setContent(`<html><head><style>${fontCss}
-    html,body{margin:0;width:1320px;height:2868px;overflow:hidden;background:radial-gradient(120% 70% at 50% 0%,#24301a 0%,#0b0e14 55%,#07090d 100%);}
-    .cap{position:absolute;top:150px;left:90px;right:90px;text-align:center;color:#fff}
-    h1{font:700 104px/1.08 O;margin:0;letter-spacing:-1px}
-    p{font:500 50px/1.3 I;color:#c6f24e;margin:34px 0 0}
-    .phone{position:absolute;left:50%;top:560px;transform:translateX(-50%);width:1000px;height:2219px;border-radius:118px;background:#000;padding:26px;box-shadow:0 60px 140px rgba(0,0,0,.6),0 0 0 6px #2a3142}
-    .phone img{width:100%;height:100%;object-fit:contain;border-radius:94px;display:block}
+    html,body{margin:0;width:${D.W}px;height:${D.H}px;overflow:hidden;background:radial-gradient(120% 70% at 50% 0%,#24301a 0%,#0b0e14 55%,#07090d 100%);}
+    .cap{position:absolute;top:${D.top}px;left:90px;right:90px;text-align:center;color:#fff}
+    h1{font:700 ${D.h1}px/1.08 O;margin:0;letter-spacing:-1px}
+    p{font:500 ${D.p}px/1.3 I;color:#c6f24e;margin:34px 0 0}
+    .phone{position:absolute;left:50%;top:${D.frameTop}px;transform:translateX(-50%);width:${D.frameW}px;height:${D.frameH}px;box-sizing:border-box;border-radius:${D.radius}px;background:#000;padding:${D.pad}px;box-shadow:0 60px 140px rgba(0,0,0,.6),0 0 0 6px #2a3142}
+    .phone img{width:100%;height:100%;object-fit:contain;border-radius:${D.radius - D.pad}px;display:block}
   </style></head><body><div class="cap"><h1>${title}</h1><p>${sub}</p></div>
   <div class="phone"><img src="data:image/png;base64,${b64}"></div></body></html>`);
   await composer.waitForTimeout(150);
@@ -152,10 +159,11 @@ let currentLang = 'it';
 for (const lang of LANGS) {
   currentLang = lang;
   for (const loc of STORE_LOCALES[lang]) await mkdir(`fastlane/screenshots/${loc}`, { recursive: true });
-  for (const [i, name] of ORDER.entries()) {
+  // Su iPad la Home mostra già la mappa del recupero: niente schermata doppia
+  for (const [i, name] of ORDER.filter(n => !(IPAD && n === 'recovery')).entries()) {
     const raw = await scene(name);
     for (const loc of STORE_LOCALES[lang]) {
-      await compose(raw, CAPTIONS[name][lang], `fastlane/screenshots/${loc}/${String(i + 1).padStart(2, '0')}_${name}_1320x2868.png`);
+      await compose(raw, CAPTIONS[name][lang], `fastlane/screenshots/${loc}/${String(i + 1).padStart(2, '0')}_${name}_${D.suffix}.png`);
     }
     console.log(lang, name);
   }
