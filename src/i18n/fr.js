@@ -151,5 +151,7 @@ export default {
   pw_cta_trial: 'Commencer l\'essai gratuit', pw_cta: 'S\'abonner', pw_free: 'Continuer avec la version gratuite',
   pw_legal: 'Après 7 jours d\'essai gratuit, l\'abonnement coûte {price} et se renouvelle automatiquement, sauf résiliation au moins 24 heures avant la fin de la période. Le paiement est débité sur votre identifiant Apple. Gérez ou résiliez dans Réglages › Identifiant Apple › Abonnements.',
   pw_unavailable: 'Les abonnements sont disponibles dans l\'app iPhone.', pw_error: 'Achat non finalisé. Réessayez.',
-  pw_loading: 'Chargement des prix…', pw_welcome: 'Bienvenue dans Premium !'
+  pw_loading: 'Chargement des prix…', pw_welcome: 'Bienvenue dans Premium !',
+  // fonti
+  src_title: 'Sources scientifiques', src_intro: 'Les recommandations d\'AuraLift (calories, macros, eau, entraînement) reposent sur ces publications et recommandations. Touchez une source pour l\'ouvrir.', src_link: 'Sources', src_all: 'Voir toutes les sources', src_estimate: 'Valeurs estimées à titre informatif, ce ne sont pas des conseils médicaux.',
 };

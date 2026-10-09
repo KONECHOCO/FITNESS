@@ -274,7 +274,8 @@ export function nutritionTargets(profile) {
   const protein = Math.round(weightKg * (goal === 'fitness' ? 1.8 : 2.0));
   const fat = Math.round(kcal * 0.25 / 9);
   const carbs = Math.max(0, Math.round((kcal - protein * 4 - fat * 9) / 4));
-  const waterMl = Math.round(weightKg * 35 / 250) * 250;
+  // Assunzione adeguata di acqua EFSA (2010): 2,5 L/giorno uomini, 2,0 L/giorno donne
+  const waterMl = sex === 'f' ? 2000 : 2500;
   return { bmr: Math.round(bmr), tdee: Math.round(tdee), kcal, protein, carbs, fat, waterMl };
 }
 

@@ -151,5 +151,7 @@ export default {
   pw_cta_trial: 'Start free trial', pw_cta: 'Subscribe', pw_free: 'Continue with the free version',
   pw_legal: 'After the 7-day free trial the subscription costs {price} and renews automatically unless cancelled at least 24 hours before the end of the period. Payment is charged to your Apple ID. Manage or cancel in Settings › Apple ID › Subscriptions.',
   pw_unavailable: 'Subscriptions are available in the iPhone app.', pw_error: 'Purchase not completed. Please try again.',
-  pw_loading: 'Loading prices…', pw_welcome: 'Welcome to Premium!'
+  pw_loading: 'Loading prices…', pw_welcome: 'Welcome to Premium!',
+  // fonti
+  src_title: 'Scientific sources', src_intro: 'AuraLift\'s recommendations (calories, macros, water, training) are based on these publications and guidelines. Tap a source to open it.', src_link: 'Sources', src_all: 'Show all sources', src_estimate: 'Estimated values for information only, not medical advice.',
 };

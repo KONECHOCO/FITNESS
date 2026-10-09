@@ -428,3 +428,15 @@ button.card, [data-act].card { cursor: pointer; }
   .grid { grid-template-columns: repeat(3, 1fr); }
   .cols { grid-template-columns: 1.1fr 1fr; }
 }
+
+/* ---------------------------------------------------------------- fonti scientifiche */
+.src-btn { display: inline-flex; align-items: center; gap: 6px; min-height: 32px; padding: 0 10px; border-radius: 99px; font-size: 0.76rem; font-weight: 600;
+  color: var(--blue); background: rgba(90, 200, 250, 0.1); border: 1px solid rgba(90, 200, 250, 0.25); white-space: nowrap; flex: none; }
+.sources { display: grid; gap: 8px; margin: 10px 0; }
+.source { display: grid; gap: 4px; text-align: left; padding: 12px 14px; border-radius: 14px; background: var(--surface-2); border: 1px solid var(--line); }
+.source strong { font-size: 0.92rem; }
+.source span { font-size: 0.78rem; color: #c3cad6; line-height: 1.4; }
+.source em { font-style: normal; font-size: 0.74rem; color: var(--blue); word-break: break-all; }
+.cites { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 0.74rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.cite { color: var(--blue); text-decoration: underline; font-size: 0.74rem; }
+.nu-foot { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 10px; border-top: 1px solid var(--line); }

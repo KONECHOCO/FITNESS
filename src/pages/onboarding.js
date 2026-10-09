@@ -3,7 +3,7 @@ import { saveState } from '../services/storage.js';
 import { t, fmtNum } from '../i18n/index.js';
 import { esc, ic, fromUnit, inputW, toast } from '../ui/dom.js';
 import { nutritionTargets, dayKey } from '../logic/calc.js';
-import { openSheet } from '../ui/sheets.js';
+import { openSheet, sourcesButton } from '../ui/sheets.js';
 
 const GOALS = [['muscle', 'dumbbell'], ['strength', 'weight-hanging'], ['fat_loss', 'fire'], ['fitness', 'heart-pulse']];
 
@@ -33,7 +33,8 @@ function step(i) {
           <div><span>${esc(t('kcal'))}</span><b>${fmtNum(tg.kcal)}</b></div><div><span>${esc(t('nu_protein'))}</span><b>${tg.protein} g</b></div>
           <div><span>${esc(t('nu_carbs'))}</span><b>${tg.carbs} g</b></div><div><span>${esc(t('nu_fat'))}</span><b>${tg.fat} g</b></div>
           <div><span>${esc(t('nu_water'))}</span><b>${fmtNum(tg.waterMl / 1000, 2)} L</b></div><div><span>${esc(t('st_goal_week'))}</span><b>${p.daysPerWeek}</b></div>
-        </div>`;
+        </div>
+        <p class="muted small">${esc(t('src_estimate'))} ${esc(t('coach_disclaimer'))}</p>${sourcesButton('targets')}`;
     }
     default: return '';
   }

@@ -2,6 +2,8 @@
 import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
+import { Browser } from '@capacitor/browser';
+import { SOURCES, SOURCE_BY_ID, TOPIC_SOURCES } from '../data/sources.js';
 import { S, ui, commit, uid, FREE, defaultState } from '../store.js';
 import { clearState } from '../services/storage.js';
 import { t, tr, fmtNum, fmtList, fmtDate, fmtDuration, setLang, getLang, LANG_NAMES } from '../i18n/index.js';
@@ -111,7 +113,33 @@ function answerText(topic, p) {
 }
 
 // ---------------------------------------------------------------- render per tipo
+/** Etichetta breve di una fonte: primo autore/ente + anno. */
+export function shortCite(src) {
+  const year = (src.cite.match(/(19|20)\d{2}/) || [''])[0];
+  return `${src.cite.split(/[,.]/)[0].replace(/ [A-Z]{1,2}$/, '')}${year ? ` ${year}` : ''}`;
+}
+
+/** Pulsante "Fonti" che apre l'elenco filtrato per argomento. */
+export function sourcesButton(topic) {
+  return `<button class="src-btn" data-act="open-sources" data-topic="${topic}">${ic('book-medical')} ${esc(t('src_link'))}</button>`;
+}
+
+function citeLinks(ids) {
+  if (!ids?.length) return '';
+  return `<div class="cites">${ic('book-medical')} ${ids.map(id => `<button class="cite" data-act="open-url" data-url="${SOURCE_BY_ID[id].url}">${esc(shortCite(SOURCE_BY_ID[id]))}</button>`).join(' · ')}</div>`;
+}
+
 const RENDER = {
+  sources(s) {
+    const ids = s.topic && TOPIC_SOURCES[s.topic] ? TOPIC_SOURCES[s.topic] : SOURCES.map(x => x.id);
+    const list = ids.map(id => SOURCE_BY_ID[id]).map(src => `<button class="source" data-act="open-url" data-url="${src.url}">
+      <strong>${esc(tr(src.about))}</strong><span>${esc(src.cite)}</span><em>${esc(src.url.replace(/^https?:\/\//, ''))} ${ic('arrow-up-right-from-square')}</em></button>`).join('');
+    const body = `<p class="muted small">${esc(t('src_intro'))}</p><div class="sources">${list}</div>
+      ${s.topic ? `<button class="btn btn-text btn-block" data-act="open-sources">${esc(t('src_all'))}</button>` : ''}
+      <p class="muted tiny">${esc(t('coach_disclaimer'))}</p>`;
+    return shell(s, t('src_title'), body, { full: true });
+  },
+
   confirm(s) {
     return `<div class="dialog"><p>${esc(s.text)}</p><div class="row gap end">
       <button class="btn btn-ghost" data-act="confirm-no">${esc(t('cancel'))}</button>
@@ -255,16 +283,16 @@ const RENDER = {
     const TONE = { good: 'circle-check', warn: 'triangle-exclamation', info: 'circle-info' };
     const msgs = coach.messages.map(m => m.from === 'me'
       ? `<div class="msg me">${esc(m.text)}</div>`
-      : `<div class="msg bot">${esc(answerText(m.topic, m.params))}</div>`).join('');
+      : `<div class="msg bot">${esc(answerText(m.topic, m.params))}${citeLinks(TOPIC_SOURCES[m.topic])}</div>`).join('');
     const chips = ['today', 'summary', 'protein', 'rest', 'plateau', 'fat'].map(c => `<button class="chip-btn" data-act="coach-chip" data-v="${c}">${esc(t(`coach_chip_${c}`))}</button>`).join('');
     const body = `<p class="muted small">${esc(t('coach_sub'))}</p>
-      <h4>${esc(t('coach_insights'))}</h4>
+      <div class="row between"><h4>${esc(t('coach_insights'))}</h4>${sourcesButton('volume')}</div>
       <div class="insights">${visible.map(i => `<div class="insight ${i.tone}">${ic(TONE[i.tone])}<p>${esc(insightText(i))}</p></div>`).join('')}</div>
       ${hidden > 0 ? premiumLock(t('coach_more_premium', { n: hidden })) : ''}
       <h4>${esc(t('coach_ask'))}</h4>
       <div class="chat" id="chat">${msgs}</div>
       <div class="chips scroll-x">${chips}</div>
-      <p class="muted tiny">${esc(t('coach_disclaimer'))}</p>`;
+      <p class="muted tiny">${esc(t('coach_disclaimer'))} <button class="link" data-act="open-sources">${esc(t('src_title'))}</button></p>`;
     const foot = `<div class="chat-in"><input id="coach-input" data-enter="coach-send" placeholder="${esc(t('coach_ph'))}" maxlength="200"><button class="btn btn-accent" data-act="coach-send" aria-label="${esc(t('coach_ask'))}">${ic('paper-plane')}</button></div>`;
     return shell(s, t('coach_title'), body, { full: true, foot });
   },
@@ -294,6 +322,7 @@ const RENDER = {
       <label class="set-row"><span>${esc(t('st_language'))}</span><select data-chg="set-lang">${Object.entries(LANG_NAMES).map(([k, v]) => `<option value="${k}" ${getLang() === k ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
       <label class="set-row"><span>${esc(t('st_sound'))}</span><input type="checkbox" class="switch" data-chg="set-sound" ${st.sound ? 'checked' : ''}></label>
       ${m.native && !m.isPremium ? `<button class="set-row-btn" data-act="ads-privacy">${esc(t('st_ads_privacy'))}${ic('shield-halved')}</button>` : ''}
+      <button class="set-row-btn" data-act="open-sources">${esc(t('src_title'))}${ic('book-medical')}</button>
       <button class="set-row-btn" data-act="export">${esc(t('st_export'))}${isPremium() ? ic('file-export') : ic('crown')}</button>
       <a class="set-row-btn" href="${PRIVACY_URL}" target="_blank" rel="noopener">${esc(t('st_privacy'))}${ic('arrow-up-right-from-square')}</a>
       <a class="set-row-btn" href="${TERMS_URL}" target="_blank" rel="noopener">${esc(t('st_terms'))}${ic('arrow-up-right-from-square')}</a>
@@ -411,6 +440,15 @@ function applyReminders() {
 // ---------------------------------------------------------------- azioni
 export const actions = {
   'sheet-close': closeTopSheet,
+  'open-sources'(el) {
+    openSheet({ type: 'sources', topic: el.dataset.topic || null });
+  },
+  'open-url'(el) {
+    const url = el.dataset.url;
+    if (!/^https:\/\//.test(url)) return;
+    if (Capacitor.isNativePlatform()) Browser.open({ url }).catch(() => {});
+    else window.open(url, '_blank', 'noopener');
+  },
   'confirm-yes'() {
     ui.sheets.pop();
     renderSheets();

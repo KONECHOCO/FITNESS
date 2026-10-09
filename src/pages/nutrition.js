@@ -2,7 +2,7 @@ import { S, ui, commit, uid } from '../store.js';
 import { t, fmtDate, fmtNum } from '../i18n/index.js';
 import { esc, ic } from '../ui/dom.js';
 import { nutritionTargets, dayTotals, dayKey, DAY_MS } from '../logic/calc.js';
-import { openSheet } from '../ui/sheets.js';
+import { openSheet, sourcesButton } from '../ui/sheets.js';
 import { haptic } from '../services/device.js';
 
 export const MEALS = ['breakfast', 'lunch', 'dinner', 'snack'];
@@ -65,14 +65,15 @@ export function render() {
       <div class="macros">
         ${tg ? `<p class="${remaining < 0 ? 'warn' : 'muted'} small">${esc(remaining < 0 ? t('nu_over') : t('nu_remaining'))}: <b>${Math.abs(remaining)} ${esc(t('kcal'))}</b></p>` : `<p class="muted small">${esc(t('nu_no_profile'))}</p>`}
         ${macroBar(t('nu_protein'), tot.p, tg?.protein, 'm-p')}${macroBar(t('nu_carbs'), tot.c, tg?.carbs, 'm-c')}${macroBar(t('nu_fat'), tot.f, tg?.fat, 'm-f')}
-      </div></section>
+      </div>
+      <div class="nu-foot"><span class="muted tiny">${esc(t('src_estimate'))}</span>${sourcesButton('targets')}</div></section>
     <section class="card water">
-      <div class="card-h"><h3>${ic('glass-water')} ${esc(t('nu_water'))}</h3><span class="muted small">${fmtNum(day.waterMl / 1000, 2)} / ${fmtNum(waterGoal / 1000, 2)} L</span></div>
+      <div class="card-h"><h3>${ic('glass-water')} ${esc(t('nu_water'))}</h3>${sourcesButton('targets')}<span class="muted small">${fmtNum(day.waterMl / 1000, 2)} / ${fmtNum(waterGoal / 1000, 2)} L</span></div>
       <div class="glasses">${Array.from({ length: glasses }, (_, i) => `<span class="${i < filled ? 'on' : ''}">${ic('glass-water')}</span>`).join('')}</div>
       <div class="row gap"><button class="btn btn-ghost btn-sm" data-act="water" data-d="-250">−250 ml</button><button class="btn btn-accent btn-sm" data-act="water" data-d="250">+250 ml</button></div>
     </section>
     </div><div class="col">${meals}</div></div>
-    <p class="muted small center">${esc(t('nu_source'))}</p>`;
+    <p class="muted small center">${esc(t('nu_source'))} ${sourcesButton('foods')}</p>`;
 }
 
 export function addEntry(entry) {

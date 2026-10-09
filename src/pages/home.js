@@ -6,7 +6,7 @@ import { MUSCLES, EXERCISE_BY_ID } from '../data/exercises.js';
 import { recoveryMap, averageRecovery, weeklyStats, weekStreak, workoutVolume } from '../logic/calc.js';
 import { pickTemplate, TEMPLATES } from '../logic/generator.js';
 import { buildInsights } from '../logic/coach.js';
-import { insightText } from '../ui/sheets.js';
+import { insightText, sourcesButton } from '../ui/sheets.js';
 import { getMonetization } from '../services/monetization.js';
 
 function greeting() {
@@ -56,7 +56,7 @@ export function render() {
   </section>`;
 
   const recovery = `<section class="card">
-    <div class="card-h"><div><h3>${esc(t('home_recovery_title'))}</h3><p class="muted">${esc(t('home_recovery_sub'))}</p></div></div>
+    <div class="card-h"><div><h3>${esc(t('home_recovery_title'))}</h3><p class="muted">${esc(t('home_recovery_sub'))}</p></div>${sourcesButton('recovery')}</div>
     <div class="recovery">
       ${recoverySvg(rec)}
       <ul class="rec-list">${MUSCLES.map(m => `<li><span class="dot" style="background:${recoveryColor(rec[m])}"></span>${esc(muscleName(m))}<b>${rec[m]}%</b></li>`).join('')}</ul>

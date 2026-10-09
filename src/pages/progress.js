@@ -6,7 +6,7 @@ import { EXERCISE_BY_ID, MUSCLES } from '../data/exercises.js';
 import { volumeByWeek, setsPerMuscle, exerciseHistory, oneRepMax, workoutVolume, DAY_MS, dayKey } from '../logic/calc.js';
 import { computeBadges } from '../logic/badges.js';
 import { getMonetization } from '../services/monetization.js';
-import { openSheet } from '../ui/sheets.js';
+import { openSheet, sourcesButton } from '../ui/sheets.js';
 
 const isPremium = () => getMonetization().isPremium;
 const calc = { w: 80, r: 6 };
@@ -19,7 +19,7 @@ function overview() {
   return `<div class="cols"><div class="col"><section class="card"><div class="card-h"><h3>${esc(t('pr_weekly_volume'))}</h3><span class="muted small">${esc(unit())}</span></div>
       ${workouts.length ? barChart(weeks, { fmt: v => (v >= 1000 ? `${fmtNum(v / 1000, 1)}k` : String(v)) }) : `<p class="muted">${esc(t('pr_no_workouts'))}</p>`}</section>
     <section class="card"><div class="card-h"><h3>${esc(t('pr_weekly_sets'))}</h3></div>
-      ${isPremium() ? `${hBars(MUSCLES.map(m => ({ label: muscleName(m), value: sets[m], text: fmtNum(sets[m], 1) })))}<p class="muted small">${esc(t('pr_sets_hint'))}</p>` : premiumLock(t('pr_sets_hint'))}</section>
+      ${isPremium() ? `${hBars(MUSCLES.map(m => ({ label: muscleName(m), value: sets[m], text: fmtNum(sets[m], 1) })))}<p class="muted small">${esc(t('pr_sets_hint'))}</p>${sourcesButton('volume')}` : premiumLock(t('pr_sets_hint'))}</section>
     </div><div class="col"><section class="card"><div class="card-h"><h3>${esc(t('pr_badges'))}</h3><span class="muted small">${badges.filter(b => b.unlocked).length}/${badges.length}</span></div>
       <div class="badges">${badges.map(b => `<div class="badge ${b.unlocked ? 'on' : ''}"><span class="b-ic">${b.icon}</span><span class="b-t">${esc(t(`b_${b.id}`))}</span>
         ${b.unlocked ? '' : `<div class="meter sm"><div style="width:${Math.round(b.progress * 100)}%"></div></div>`}</div>`).join('')}</div></section></div></div>`;
@@ -85,7 +85,7 @@ function calcResult() {
 }
 
 function calculator() {
-  return `<section class="card"><h3>${esc(t('calc_title'))}</h3><p class="muted small">${esc(t('calc_text'))}</p>
+  return `<section class="card"><h3>${esc(t('calc_title'))}</h3><p class="muted small">${esc(t('calc_text'))}</p>${sourcesButton('calc')}
     <div class="row gap">
       <label class="field grow"><span>${esc(t('calc_weight'))} (${esc(unit())})</span><input inputmode="decimal" data-in="calc-w" value="${inputW(calc.w)}"></label>
       <label class="field grow"><span>${esc(t('calc_reps'))}</span><input inputmode="numeric" data-in="calc-r" value="${calc.r}"></label>
