@@ -21,7 +21,7 @@ LOCALES = {
         "name": "AuraLift: Allenamento Palestra",
         "subtitle": "Schede, Casa, Coach e Dieta",
         "keywords": "fitness,workout,esercizi,muscoli,massa,pesi,bodybuilding,tracker,calorie,macro,proteine,timer,1rm",
-        "promotional_text": "Schede per palestra e casa, registro serie, recupero muscolare calcolato dai tuoi allenamenti, grafici, macro e Smart Coach. Premium: 7 giorni gratis.",
+        "promotional_text": "Schede per palestra e casa, registro serie, recupero muscolare calcolato dai tuoi allenamenti, grafici, macro e Smart Coach. Pro: acquisto unico, senza abbonamento.",
         "description": """AuraLift è il tuo personal trainer tascabile per allenarti in palestra o a casa: registri ogni serie e vedi i tuoi progressi reali, calcolati solo dai tuoi dati.
 
 SCHEDE PER PALESTRA E CASA
@@ -53,14 +53,17 @@ SMART COACH
 • Risponde alle domande su allenamento e alimentazione con linee guida basate su studi scientifici, personalizzate con i tuoi dati
 • Informazioni generali che non sostituiscono il parere di un medico
 
+APPLE WATCH E APPLE SALUTE
+• App per Apple Watch: durante l'allenamento vedi esercizio, serie e recupero e segni le serie dal polso
+• Allenamenti, calorie stimate e peso salvati in Apple Salute (facoltativo): contano negli anelli Attività
+
 ALTRO
 • Promemoria di allenamento, kg o lb, 6 lingue
 • I tuoi dati restano sul dispositivo: nessun account richiesto
 
-VERSIONE GRATUITA E PREMIUM
-AuraLift è gratuita, con pubblicità non personalizzata e alcuni limiti (3 schede personali, 1 allenamento generato al giorno, storico degli ultimi 30 giorni).
-AuraLift Premium elimina la pubblicità e sblocca schede e generatore illimitati, storico completo, grafici avanzati, tutte le analisi dello Smart Coach ed esportazione dei dati.
-Premium mensile o annuale, con 7 giorni di prova gratuita. Il pagamento viene addebitato sull'Apple ID al termine della prova. L'abbonamento si rinnova automaticamente se non viene disattivato almeno 24 ore prima della fine del periodo in corso. Puoi gestirlo o annullarlo nelle impostazioni dell'account App Store.
+VERSIONE GRATUITA E PRO
+AuraLift è gratuita, con pubblicità non personalizzata (anche un video all'apertura) e alcuni limiti (3 schede personali, 1 allenamento generato al giorno, storico degli ultimi 30 giorni).
+AuraLift Pro è un ACQUISTO UNICO di 3,99 €, senza abbonamento: elimina tutta la pubblicità e sblocca calcolatore dischi, temi colore, schede e generatore illimitati, storico completo, grafici avanzati, tutte le analisi dello Smart Coach ed esportazione dei dati. Puoi ripristinarlo gratis su tutti i tuoi dispositivi.
 
 Termini d'uso: {terms}
 Privacy: {privacy}
@@ -72,7 +75,7 @@ Consulta il tuo medico prima di iniziare un nuovo programma di allenamento o ali
         "name": "AuraLift: Gym Workout Planner",
         "subtitle": "Home Training, Coach & Diet",
         "keywords": "fitness,tracker,log,lifting,weight,exercise,muscle,bodybuilding,strength,calorie,macro,routine,1rm",
-        "promotional_text": "Gym and home plans, set and rep logging, muscle recovery calculated from your workouts, progress charts, macros and Smart Coach. Premium: 7-day free trial.",
+        "promotional_text": "Gym and home plans, set and rep logging, muscle recovery calculated from your workouts, progress charts, macros and Smart Coach. Pro: one-time purchase, no subscription.",
         "description": """AuraLift is your pocket personal trainer for the gym or at home: log every set and see real progress, calculated only from your own data.
 
 GYM AND HOME PLANS
@@ -104,14 +107,17 @@ SMART COACH
 • Answers training and nutrition questions with evidence-based guidelines personalised with your data
 • General information, not a substitute for medical advice
 
+APPLE WATCH AND APPLE HEALTH
+• Apple Watch app: during a workout see exercise, set and rest, and log sets from your wrist
+• Workouts, estimated calories and body weight saved to Apple Health (optional): they count towards your Activity rings
+
 MORE
 • Workout reminders, kg or lb, 6 languages
 • Your data stays on your device: no account required
 
-FREE AND PREMIUM
-AuraLift is free, with non-personalised ads and some limits (3 custom routines, 1 generated workout per day, last 30 days of history).
-AuraLift Premium removes ads and unlocks unlimited routines and generator, full history, advanced charts, the complete Smart Coach analysis and data export.
-Premium is available monthly or yearly with a 7-day free trial. Payment is charged to your Apple ID when the trial ends. Subscriptions renew automatically unless turned off at least 24 hours before the end of the current period. Manage or cancel in your App Store account settings.
+FREE AND PRO
+AuraLift is free, with non-personalised ads (including a video when the app opens) and some limits (3 custom routines, 1 generated workout per day, last 30 days of history).
+AuraLift Pro is a ONE-TIME PURCHASE, no subscription: it removes all ads and unlocks the plate calculator, colour themes, unlimited routines and generator, full history, advanced charts, the complete Smart Coach analysis and data export. Restore it for free on all your devices.
 
 Terms of Use: {terms}
 Privacy Policy: {privacy}
@@ -123,7 +129,7 @@ Consult your doctor before starting a new exercise or nutrition program.""",
         "name": "AuraLift: Gym & Home Workouts",
         "subtitle": "Weight Training Log & Coach",
         "keywords": "fitness,planner,tracker,lifting,exercise,muscle,bodybuilding,strength,calorie,macro,routine,timer",
-        "promotional_text": "Gym and home plans, set and rep logging, muscle recovery calculated from your workouts, progress charts, macros and Smart Coach. Premium: 7-day free trial.",
+        "promotional_text": "Gym and home plans, set and rep logging, muscle recovery calculated from your workouts, progress charts, macros and Smart Coach. Pro: one-time purchase, no subscription.",
         "description": None,  # uguale a en-US
     },
     # ---------------------------------------------------------------- ESPAÑOL ES
@@ -131,7 +137,7 @@ Consult your doctor before starting a new exercise or nutrition program.""",
         "name": "AuraLift: Rutinas de Gimnasio",
         "subtitle": "Entrena en Casa con tu Coach",
         "keywords": "fitness,ejercicios,pesas,musculación,músculo,tracker,calorías,macros,proteína,abdominales,fuerza,1rm",
-        "promotional_text": "Rutinas de gimnasio y casa, registro de series, recuperación muscular calculada con tus entrenos, gráficas, macros y Smart Coach. Premium: 7 días gratis.",
+        "promotional_text": "Rutinas de gimnasio y casa, registro de series, recuperación muscular calculada con tus entrenos, gráficas, macros y Smart Coach. Pro: compra única, sin suscripción.",
         "description": """AuraLift es tu entrenador personal de bolsillo para el gimnasio o en casa: registra cada serie y ve tu progreso real, calculado solo con tus datos.
 
 RUTINAS DE GIMNASIO Y CASA
@@ -163,14 +169,17 @@ SMART COACH
 • Responde a preguntas de entreno y alimentación con pautas basadas en estudios científicos y personalizadas con tus datos
 • Información general que no sustituye el consejo médico
 
+APPLE WATCH Y APPLE SALUD
+• App para Apple Watch: durante el entreno ve ejercicio, serie y descanso y marca las series desde la muñeca
+• Entrenos, calorías estimadas y peso guardados en Apple Salud (opcional): cuentan en los anillos de Actividad
+
 ADEMÁS
 • Recordatorios de entreno, kg o lb, 6 idiomas
 • Tus datos se quedan en tu dispositivo: sin necesidad de cuenta
 
-VERSIÓN GRATUITA Y PREMIUM
-AuraLift es gratuita, con anuncios no personalizados y algunos límites (3 rutinas propias, 1 entreno generado al día, historial de los últimos 30 días).
-AuraLift Premium elimina los anuncios y desbloquea rutinas y generador ilimitados, historial completo, gráficas avanzadas, todo el análisis del Smart Coach y la exportación de datos.
-Premium mensual o anual, con 7 días de prueba gratuita. El pago se carga en tu Apple ID al terminar la prueba. La suscripción se renueva automáticamente salvo que la desactives al menos 24 horas antes del final del periodo actual. Gestiona o cancela en los ajustes de tu cuenta del App Store.
+VERSIÓN GRATUITA Y PRO
+AuraLift es gratuita, con anuncios no personalizados (también un vídeo al abrir la app) y algunos límites (3 rutinas propias, 1 entreno generado al día, historial de los últimos 30 días).
+AuraLift Pro es una COMPRA ÚNICA, sin suscripción: elimina todos los anuncios y desbloquea la calculadora de discos, temas de color, rutinas y generador ilimitados, historial completo, gráficas avanzadas, todo el análisis del Smart Coach y la exportación de datos. Restáurala gratis en todos tus dispositivos.
 
 Términos de uso: {terms}
 Privacidad: {privacy}
@@ -182,7 +191,7 @@ Consulta a tu médico antes de empezar un nuevo programa de ejercicio o alimenta
         "name": "AuraLift: Ejercicios en el Gym",
         "subtitle": "Rutinas, Pesas y Entrenador",
         "keywords": "fitness,gimnasio,entrenamiento,casa,músculo,tracker,calorías,dieta,proteína,abdominales,fuerza,1rm",
-        "promotional_text": "Rutinas de gimnasio y casa, registro de series, recuperación muscular calculada con tus entrenos, gráficas, macros y Smart Coach. Premium: 7 días gratis.",
+        "promotional_text": "Rutinas de gimnasio y casa, registro de series, recuperación muscular calculada con tus entrenos, gráficas, macros y Smart Coach. Pro: compra única, sin suscripción.",
         "description": None,  # uguale a es-ES
     },
     # ---------------------------------------------------------------- FRANÇAIS
@@ -190,7 +199,7 @@ Consulta a tu médico antes de empezar un nuevo programa de ejercicio o alimenta
         "name": "AuraLift: Musculation & Sport",
         "subtitle": "Salle, Maison & Coach",
         "keywords": "fitness,entraînement,exercices,programme,muscle,gym,suivi,calories,macros,protéines,abdos,régime,1rm",
-        "promotional_text": "Programmes salle et maison, suivi des séries, récupération musculaire calculée sur vos séances, graphiques, macros et Smart Coach. Premium : 7 jours offerts.",
+        "promotional_text": "Programmes salle et maison, suivi des séries, récupération musculaire calculée sur vos séances, graphiques, macros et Smart Coach. Pro : achat unique, sans abonnement.",
         "description": """AuraLift est votre coach personnel de poche, à la salle ou à la maison : enregistrez chaque série et suivez vos vrais progrès, calculés uniquement à partir de vos données.
 
 PROGRAMMES SALLE ET MAISON
@@ -222,14 +231,17 @@ SMART COACH
 • Répond à vos questions sur l'entraînement et la nutrition avec des recommandations fondées sur la science et personnalisées avec vos données
 • Informations générales qui ne remplacent pas un avis médical
 
+APPLE WATCH ET APPLE SANTÉ
+• App Apple Watch : pendant la séance, voyez exercice, série et repos, et validez les séries depuis le poignet
+• Séances, calories estimées et poids enregistrés dans Apple Santé (facultatif) : ils comptent dans les anneaux Activité
+
 ET AUSSI
 • Rappels d'entraînement, kg ou lb, 6 langues
 • Vos données restent sur votre appareil : aucun compte nécessaire
 
-VERSION GRATUITE ET PREMIUM
-AuraLift est gratuite, avec des publicités non personnalisées et quelques limites (3 programmes personnels, 1 séance générée par jour, historique des 30 derniers jours).
-AuraLift Premium supprime la publicité et débloque programmes et générateur illimités, historique complet, graphiques avancés, toute l'analyse du Smart Coach et l'export des données.
-Premium mensuel ou annuel, avec 7 jours d'essai gratuit. Le paiement est débité sur votre identifiant Apple à la fin de l'essai. L'abonnement se renouvelle automatiquement sauf s'il est désactivé au moins 24 heures avant la fin de la période en cours. Gérez-le ou résiliez-le dans les réglages de votre compte App Store.
+VERSION GRATUITE ET PRO
+AuraLift est gratuite, avec des publicités non personnalisées (dont une vidéo à l'ouverture) et quelques limites (3 programmes personnels, 1 séance générée par jour, historique des 30 derniers jours).
+AuraLift Pro est un ACHAT UNIQUE, sans abonnement : il supprime toute la publicité et débloque le calculateur de disques, les thèmes de couleur, programmes et générateur illimités, l'historique complet, les graphiques avancés, toute l'analyse du Smart Coach et l'export des données. Restaurez-le gratuitement sur tous vos appareils.
 
 Conditions d'utilisation : {terms}
 Confidentialité : {privacy}
@@ -241,7 +253,7 @@ Consultez votre médecin avant de commencer un nouveau programme d'entraînement
         "name": "AuraLift: Gym Trainingsplan",
         "subtitle": "Training Zuhause & Coach",
         "keywords": "fitness,krafttraining,übungen,muskelaufbau,fitnessstudio,tracker,kalorien,makros,protein,bauch,diät",
-        "promotional_text": "Pläne für Studio und Zuhause, Satz-Tracking, Muskelregeneration aus deinen Workouts, Diagramme, Makros und Smart Coach. Premium: 7 Tage gratis testen.",
+        "promotional_text": "Pläne für Studio und Zuhause, Satz-Tracking, Muskelregeneration aus deinen Workouts, Diagramme, Makros und Smart Coach. Pro: Einmalkauf, kein Abo.",
         "description": """AuraLift ist dein Personal Trainer für die Hosentasche – im Fitnessstudio oder zu Hause: Erfasse jeden Satz und sieh deine echten Fortschritte, berechnet nur aus deinen Daten.
 
 PLÄNE FÜR STUDIO UND ZUHAUSE
@@ -273,14 +285,17 @@ SMART COACH
 • Beantwortet Fragen zu Training und Ernährung mit wissenschaftlich fundierten Empfehlungen, angepasst an deine Daten
 • Allgemeine Informationen, kein Ersatz für ärztlichen Rat
 
+APPLE WATCH UND APPLE HEALTH
+• Apple-Watch-App: Beim Training Übung, Satz und Pause sehen und Sätze vom Handgelenk abhaken
+• Workouts, geschätzte Kalorien und Körpergewicht in Apple Health speichern (optional): Sie zählen für die Aktivitätsringe
+
 AUSSERDEM
 • Trainingserinnerungen, kg oder lb, 6 Sprachen
 • Deine Daten bleiben auf deinem Gerät: kein Konto nötig
 
-GRATISVERSION UND PREMIUM
-AuraLift ist kostenlos, mit nicht personalisierter Werbung und einigen Grenzen (3 eigene Pläne, 1 erstelltes Workout pro Tag, Verlauf der letzten 30 Tage).
-AuraLift Premium entfernt die Werbung und schaltet unbegrenzte Pläne und Generator, den vollständigen Verlauf, erweiterte Diagramme, alle Analysen des Smart Coach und den Datenexport frei.
-Premium monatlich oder jährlich, mit 7 Tagen kostenlosem Test. Die Zahlung wird nach Ende des Tests über deine Apple-ID abgerechnet. Das Abo verlängert sich automatisch, sofern es nicht mindestens 24 Stunden vor Ende des laufenden Zeitraums gekündigt wird. Verwalten oder kündigen kannst du es in den Einstellungen deines App Store-Accounts.
+GRATISVERSION UND PRO
+AuraLift ist kostenlos, mit nicht personalisierter Werbung (auch ein Video beim Öffnen) und einigen Grenzen (3 eigene Pläne, 1 erstelltes Workout pro Tag, Verlauf der letzten 30 Tage).
+AuraLift Pro ist ein EINMALKAUF ohne Abo: Es entfernt die Werbung und schaltet Scheibenrechner, Farbthemen, unbegrenzte Pläne und Generator, den vollständigen Verlauf, erweiterte Diagramme, alle Analysen des Smart Coach und den Datenexport frei. Kostenlos auf allen deinen Geräten wiederherstellbar.
 
 Nutzungsbedingungen: {terms}
 Datenschutz: {privacy}
@@ -292,7 +307,7 @@ Sprich mit deinem Arzt, bevor du ein neues Trainings- oder Ernährungsprogramm b
         "name": "AuraLift: Treino de Academia",
         "subtitle": "Em Casa, Dieta e Personal",
         "keywords": "fitness,musculação,exercícios,ficha,músculo,hipertrofia,calorias,macros,proteína,abdominal,força,1rm",
-        "promotional_text": "Fichas de academia e casa, registro de séries, recuperação muscular calculada pelos seus treinos, gráficos, macros e Smart Coach. Premium: 7 dias grátis.",
+        "promotional_text": "Fichas de academia e casa, registro de séries, recuperação muscular calculada pelos seus treinos, gráficos, macros e Smart Coach. Pro: compra única, sem assinatura.",
         "description": """AuraLift é o seu personal trainer de bolso para a academia ou em casa: registre cada série e veja seu progresso real, calculado só com os seus dados.
 
 FICHAS DE ACADEMIA E CASA
@@ -324,14 +339,17 @@ SMART COACH
 • Responde perguntas sobre treino e alimentação com orientações baseadas em estudos científicos e personalizadas com seus dados
 • Informações gerais que não substituem a orientação médica
 
+APPLE WATCH E APPLE SAÚDE
+• App para Apple Watch: durante o treino veja exercício, série e descanso e marque as séries pelo pulso
+• Treinos, calorias estimadas e peso salvos no app Saúde (opcional): contam nos anéis de Atividade
+
 E MAIS
 • Lembretes de treino, kg ou lb, 6 idiomas
 • Seus dados ficam no seu aparelho: sem necessidade de conta
 
-VERSÃO GRATUITA E PREMIUM
-O AuraLift é gratuito, com anúncios não personalizados e alguns limites (3 fichas próprias, 1 treino gerado por dia, histórico dos últimos 30 dias).
-O AuraLift Premium remove os anúncios e libera fichas e gerador ilimitados, histórico completo, gráficos avançados, todas as análises do Smart Coach e exportação de dados.
-Premium mensal ou anual, com 7 dias de teste grátis. O pagamento é cobrado no seu ID Apple ao fim do teste. A assinatura é renovada automaticamente, a menos que seja desativada pelo menos 24 horas antes do fim do período atual. Gerencie ou cancele nos ajustes da sua conta da App Store.
+VERSÃO GRATUITA E PRO
+O AuraLift é gratuito, com anúncios não personalizados (incluindo um vídeo ao abrir o app) e alguns limites (3 fichas próprias, 1 treino gerado por dia, histórico dos últimos 30 dias).
+O AuraLift Pro é uma COMPRA ÚNICA, sem assinatura: remove todos os anúncios e libera a calculadora de anilhas, temas de cor, fichas e gerador ilimitados, histórico completo, gráficos avançados, todas as análises do Smart Coach e exportação de dados. Restaure grátis em todos os seus aparelhos.
 
 Termos de uso: {terms}
 Privacidade: {privacy}
@@ -343,7 +361,7 @@ Consulte seu médico antes de iniciar um novo programa de treino ou alimentaçã
         "name": "AuraLift: Treino de Ginásio",
         "subtitle": "Em Casa, Dieta e Coach",
         "keywords": "fitness,musculação,exercícios,plano,músculo,hipertrofia,calorias,macros,proteína,abdominais,força",
-        "promotional_text": "Planos de ginásio e casa, registo de séries, recuperação muscular calculada pelos seus treinos, gráficos, macros e Smart Coach. Premium: 7 dias grátis.",
+        "promotional_text": "Planos de ginásio e casa, registo de séries, recuperação muscular calculada pelos seus treinos, gráficos, macros e Smart Coach. Pro: compra única, sem assinatura.",
         "description": None,  # uguale a pt-BR
     },
 }

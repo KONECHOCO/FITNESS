@@ -1,59 +1,71 @@
 /**
  * Monetizzazione:
- * - Versione gratuita con pubblicità NON personalizzata (banner + interstitial in momenti di pausa).
- *   Nessuna richiesta App Tracking Transparency: non tracciamo l'utente tra app di altre aziende.
+ * - Versione gratuita con pubblicità NON personalizzata: video all'apertura dell'app (app open, con
+ *   interstitial di riserva), banner fisso e interstitial nelle pause naturali. Mai annunci a schermo
+ *   intero durante un allenamento (lo decide il chiamante). Nessuna richiesta App Tracking Transparency.
  *   In SEE/UK chiediamo il consenso con il modulo certificato Google (UMP).
- * - AuraLift Premium: abbonamento auto-rinnovabile mensile o annuale, 7 giorni di prova gratuita
- *   (offerta introduttiva configurata su App Store Connect). Rimuove la pubblicità e sblocca le
- *   funzioni Premium.
- * - Gli ID AdMob reali arrivano dalle variabili VITE_ADMOB_* (Codemagic). Senza di esse si usano gli
- *   ID di test ufficiali Google: non pubblicare mai l'app con gli annunci di test.
+ * - AuraLift Pro: acquisto UNA TANTUM (non consumabile, 3,99 €). Toglie tutta la pubblicità e sblocca
+ *   le funzioni Pro. Chi aveva già un abbonamento Premium (versione 1.0) mantiene tutto sbloccato.
+ * - Gli ID AdMob reali arrivano da .env.production. Senza di essi si usano gli ID di test ufficiali Google.
  */
 import { Capacitor } from '@capacitor/core';
 import { App as CapApp } from '@capacitor/app';
-import { AdMob, AdmobConsentStatus, BannerAdPluginEvents, BannerAdPosition, BannerAdSize } from '@capacitor-community/admob';
+import {
+  AdMob, AdmobConsentStatus, AppOpenAdPluginEvents, BannerAdPluginEvents, BannerAdPosition, BannerAdSize
+} from '@capacitor-community/admob';
 import { NativePurchases, PURCHASE_TYPE } from '@capgo/native-purchases';
 
-export const PRODUCTS = {
-  monthly: 'auralift.premium.monthly',
-  yearly: 'auralift.premium.yearly'
-};
-const PRODUCT_IDS = Object.values(PRODUCTS);
+export const PRO_PRODUCT_ID = 'auralift_pro';
+// Abbonamenti della versione 1.0, non più in vendita nell'app ma ancora validi per chi li ha
+const LEGACY_SUBS = ['auralift.premium.monthly', 'auralift.premium.yearly'];
 
 const native = Capacitor.isNativePlatform();
 const platform = Capacitor.getPlatform();
 const env = import.meta.env;
 
 const TEST_IDS = {
-  ios: { banner: 'ca-app-pub-3940256099942544/2435281174', interstitial: 'ca-app-pub-3940256099942544/4411468910' },
-  android: { banner: 'ca-app-pub-3940256099942544/9214589741', interstitial: 'ca-app-pub-3940256099942544/1033173712' }
+  ios: {
+    banner: 'ca-app-pub-3940256099942544/2435281174',
+    interstitial: 'ca-app-pub-3940256099942544/4411468910',
+    appOpen: 'ca-app-pub-3940256099942544/5575463023'
+  },
+  android: {
+    banner: 'ca-app-pub-3940256099942544/9214589741',
+    interstitial: 'ca-app-pub-3940256099942544/1033173712',
+    appOpen: 'ca-app-pub-3940256099942544/9257395921'
+  }
 };
 const P = platform === 'ios' ? 'IOS' : 'ANDROID';
-const REAL_IDS = { banner: env[`VITE_ADMOB_${P}_BANNER`], interstitial: env[`VITE_ADMOB_${P}_INTERSTITIAL`] };
+const REAL_IDS = {
+  banner: env[`VITE_ADMOB_${P}_BANNER`],
+  interstitial: env[`VITE_ADMOB_${P}_INTERSTITIAL`],
+  appOpen: env[`VITE_ADMOB_${P}_APP_OPEN`]
+};
 const USE_TEST_ADS = env.DEV || !REAL_IDS.banner;
 const AD_IDS = USE_TEST_ADS ? TEST_IDS[platform] || TEST_IDS.ios : REAL_IDS;
 
-// Mai annunci a schermo intero durante l'allenamento: solo a fine sessione o ogni N cambi di sezione.
-const NAV_EVERY = 6;
-const MIN_GAP_MS = 3 * 60 * 1000;
+// Frequenze: entro le regole AdMob (niente annunci a raffica, mai durante l'uso attivo)
+const NAV_EVERY = 3;
+const MIN_GAP_MS = 60 * 1000;
+const APP_OPEN_MIN_BACKGROUND_MS = 20 * 1000;
+const APP_OPEN_LOAD_TIMEOUT_MS = 6000;
 
-const CACHE_KEY = 'auralift.premium';
+const CACHE_KEY = 'auralift.pro';
 const readCache = () => { try { return JSON.parse(localStorage.getItem(CACHE_KEY)) || null; } catch { return null; } };
 const writeCache = v => { try { localStorage.setItem(CACHE_KEY, JSON.stringify(v)); } catch { /* storage non disponibile */ } };
 
-// Solo in sviluppo: ?premium simula l'abbonamento attivo, ?storeshot mostra il paywall come nell'app
+// Solo in sviluppo: ?premium simula Pro attivo, ?storeshot mostra il paywall come nell'app
 const devFlags = env.DEV && typeof location !== 'undefined' ? location.search : '';
 const cached = readCache();
 
 let state = {
   native: native || devFlags.includes('storeshot'),
-  isPremium: devFlags.includes('premium') || Boolean(cached && cached.expires > Date.now()),
+  isPremium: devFlags.includes('premium') || Boolean(cached && (cached.lifetime || cached.expires > Date.now())),
   premiumInfo: cached,
-  // Prezzi di esempio solo per l'anteprima del paywall in sviluppo; nell'app arrivano da StoreKit
-  products: devFlags.includes('storeshot') ? {
-    [PRODUCTS.monthly]: { identifier: PRODUCTS.monthly, price: 6.99, priceString: '6,99 €', currencyCode: 'EUR' },
-    [PRODUCTS.yearly]: { identifier: PRODUCTS.yearly, price: 39.99, priceString: '39,99 €', currencyCode: 'EUR' }
-  } : {},
+  // Prezzo di esempio solo per l'anteprima del paywall in sviluppo; nell'app arriva da StoreKit
+  products: devFlags.includes('storeshot')
+    ? { [PRO_PRODUCT_ID]: { identifier: PRO_PRODUCT_ID, price: 3.99, priceString: '3,99 €', currencyCode: 'EUR' } }
+    : {},
   adsReady: false,
   bannerHeight: 0
 };
@@ -71,22 +83,23 @@ export function onMonetization(fn) {
 
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-// ---------------------------------------------------------------- abbonamento
-function activeSubscription(purchases) {
+// ---------------------------------------------------------------- Pro (e vecchi abbonamenti)
+async function applyEntitlements(inapp, subs) {
+  const pro = (inapp || []).find(p => p.productIdentifier === PRO_PRODUCT_ID &&
+    (platform !== 'android' || p.purchaseState === '1' || p.purchaseState == null));
   const now = Date.now();
-  return (purchases || []).find(p => PRODUCT_IDS.includes(p.productIdentifier) &&
+  const sub = (subs || []).find(p => LEGACY_SUBS.includes(p.productIdentifier) &&
     (p.isActive === true || (p.expirationDate && new Date(p.expirationDate).getTime() > now)));
-}
-
-async function applyPurchases(purchases) {
-  const sub = activeSubscription(purchases);
-  const info = sub ? {
-    productId: sub.productIdentifier,
-    // Senza data di scadenza teniamo valida la cache 1 giorno: verrà riverificata al prossimo avvio
-    expires: sub.expirationDate ? new Date(sub.expirationDate).getTime() : Date.now() + 86400000,
-    trial: Boolean(sub.isTrialPeriod),
-    willCancel: sub.willCancel === true
-  } : null;
+  let info = null;
+  if (pro) info = { productId: PRO_PRODUCT_ID, lifetime: true };
+  else if (sub) {
+    info = {
+      productId: sub.productIdentifier,
+      expires: sub.expirationDate ? new Date(sub.expirationDate).getTime() : now + 86400000,
+      willCancel: sub.willCancel === true,
+      legacySub: true
+    };
+  }
   writeCache(info);
   setState({ isPremium: Boolean(info), premiumInfo: info });
   if (info) await removeAds();
@@ -95,33 +108,32 @@ async function applyPurchases(purchases) {
 export async function refreshPremium() {
   if (!native) return;
   try {
-    const { purchases } = await NativePurchases.getPurchases({ productType: PURCHASE_TYPE.SUBS, onlyCurrentEntitlements: true });
-    await applyPurchases(purchases);
+    const [inapp, subs] = await Promise.all([
+      NativePurchases.getPurchases({ productType: PURCHASE_TYPE.INAPP }).then(r => r.purchases).catch(() => []),
+      NativePurchases.getPurchases({ productType: PURCHASE_TYPE.SUBS, onlyCurrentEntitlements: true }).then(r => r.purchases).catch(() => [])
+    ]);
+    await applyEntitlements(inapp, subs);
   } catch (err) {
-    // Offline: resta valido l'ultimo stato noto fino alla sua scadenza
-    console.info('Verifica abbonamento non riuscita', err);
+    // Offline: resta valido l'ultimo stato noto
+    console.info('Verifica acquisti non riuscita', err);
   }
 }
 
 export async function loadProducts() {
   if (!native) return;
   try {
-    const { products } = await NativePurchases.getProducts({ productIdentifiers: PRODUCT_IDS, productType: PURCHASE_TYPE.SUBS });
-    setState({ products: Object.fromEntries(products.map(p => [p.identifier, p])) });
+    const { product } = await NativePurchases.getProduct({ productIdentifier: PRO_PRODUCT_ID, productType: PURCHASE_TYPE.INAPP });
+    if (product) setState({ products: { [PRO_PRODUCT_ID]: product } });
   } catch (err) {
-    console.info('Prodotti non disponibili', err);
+    console.info('Prodotto Pro non disponibile', err);
   }
 }
 
-export async function buyPremium(productId) {
+export async function buyPremium() {
   if (!native) throw new Error('store_unavailable');
-  const product = state.products[productId];
-  await NativePurchases.purchaseProduct({
-    productIdentifier: productId,
-    productType: PURCHASE_TYPE.SUBS,
-    planIdentifier: product?.planIdentifier
-  });
-  await refreshPremium();
+  const tx = await NativePurchases.purchaseProduct({ productIdentifier: PRO_PRODUCT_ID, productType: PURCHASE_TYPE.INAPP, quantity: 1 });
+  if (tx?.productIdentifier === PRO_PRODUCT_ID) await applyEntitlements([tx], []);
+  else await refreshPremium();
   return state.isPremium;
 }
 
@@ -144,7 +156,10 @@ export async function manageSubscription() {
 let lastFullscreenAt = 0;
 let navCount = 0;
 let interstitialLoaded = false;
+let appOpenLoaded = false;
 let showing = false;
+let backgroundedAt = 0;
+let blockFullscreen = () => false;
 
 const adsAllowed = () => native && state.adsReady && !state.isPremium;
 
@@ -154,6 +169,16 @@ async function prepareInterstitial() {
     interstitialLoaded = true;
   } catch {
     interstitialLoaded = false;
+  }
+}
+
+async function loadAppOpen() {
+  if (!AD_IDS.appOpen) return;
+  try {
+    await AdMob.loadAppOpen({ adId: AD_IDS.appOpen, npa: true });
+    appOpenLoaded = true;
+  } catch {
+    appOpenLoaded = false;
   }
 }
 
@@ -199,24 +224,44 @@ export async function showPrivacyOptions() {
   if (native) await AdMob.showPrivacyOptionsForm();
 }
 
-async function showInterstitial() {
-  if (!adsAllowed() || showing) return;
-  if (Date.now() - lastFullscreenAt < MIN_GAP_MS) return;
+async function showInterstitial(force = false) {
+  if (!adsAllowed() || showing || blockFullscreen()) return false;
+  if (!force && Date.now() - lastFullscreenAt < MIN_GAP_MS) return false;
   if (!interstitialLoaded) {
     prepareInterstitial();
-    return;
+    return false;
   }
   try {
     showing = true;
     interstitialLoaded = false;
     await AdMob.showInterstitial();
     lastFullscreenAt = Date.now();
+    return true;
   } catch {
-    // annuncio non disponibile
+    return false;
   } finally {
     showing = false;
     prepareInterstitial();
   }
+}
+
+/** Video all'apertura: app open se pronto entro pochi secondi, altrimenti interstitial di riserva. */
+async function showOpeningAd() {
+  if (!adsAllowed() || showing || blockFullscreen()) return;
+  if (!appOpenLoaded) await Promise.race([loadAppOpen(), sleep(APP_OPEN_LOAD_TIMEOUT_MS)]);
+  if (appOpenLoaded) {
+    try {
+      showing = true;
+      appOpenLoaded = false;
+      await AdMob.showAppOpen();
+      lastFullscreenAt = Date.now();
+      return;
+    } catch {
+      showing = false;
+    }
+  }
+  if (!interstitialLoaded) await Promise.race([prepareInterstitial(), sleep(APP_OPEN_LOAD_TIMEOUT_MS)]);
+  await showInterstitial(true);
 }
 
 /** Dopo il riepilogo di fine allenamento. */
@@ -228,21 +273,42 @@ export function adOnNavigate() {
   if (navCount % NAV_EVERY === 0) showInterstitial();
 }
 
-/** Durante l'allenamento il banner resta (non copre i comandi), gli altri annunci no. */
-export async function initMonetization() {
+/**
+ * Da chiamare una volta all'avvio. `opts.shouldBlockFullscreen()` deve restituire true quando un annuncio
+ * a schermo intero darebbe fastidio (primo avvio/onboarding, allenamento in corso).
+ */
+export async function initMonetization(opts = {}) {
+  if (opts.shouldBlockFullscreen) blockFullscreen = opts.shouldBlockFullscreen;
   setState({});
   if (!native) return;
   loadProducts();
   await Promise.race([refreshPremium(), sleep(4000)]);
-  CapApp.addListener('appStateChange', ({ isActive }) => { if (isActive) refreshPremium(); });
+  CapApp.addListener('appStateChange', ({ isActive }) => {
+    if (!isActive) {
+      backgroundedAt = Date.now();
+      return;
+    }
+    refreshPremium();
+    const away = backgroundedAt ? Date.now() - backgroundedAt : 0;
+    if (away >= APP_OPEN_MIN_BACKGROUND_MS && Date.now() - lastFullscreenAt >= MIN_GAP_MS) showOpeningAd();
+  });
   if (state.isPremium) return;
 
   if (!(await gatherConsent())) return;
   await AdMob.initialize({ initializeForTesting: USE_TEST_ADS });
   setState({ adsReady: true });
   AdMob.addListener(BannerAdPluginEvents.SizeChanged, size => setState({ bannerHeight: size.height || 0 }));
-  showBanner();
+  AdMob.addListener(AppOpenAdPluginEvents.Closed, () => {
+    showing = false;
+    lastFullscreenAt = Date.now();
+    loadAppOpen();
+  });
+  AdMob.addListener(AppOpenAdPluginEvents.FailedToShow, () => {
+    showing = false;
+    loadAppOpen();
+  });
   prepareInterstitial();
-  // L'utente appena arrivato non vede annunci a schermo intero per i primi minuti
-  lastFullscreenAt = Date.now();
+  await showOpeningAd();
+  showBanner();
+  loadAppOpen();
 }

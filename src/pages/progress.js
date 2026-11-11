@@ -3,13 +3,15 @@ import { t, tr, fmtDate, fmtDuration, fmtNum } from '../i18n/index.js';
 import { esc, ic, fmtW, fmtVolume, toUnit, fromUnit, inputW, muscleName, emptyState, premiumLock, unit, toast } from '../ui/dom.js';
 import { barChart, lineChart, hBars } from '../ui/charts.js';
 import { EXERCISE_BY_ID, MUSCLES } from '../data/exercises.js';
-import { volumeByWeek, setsPerMuscle, exerciseHistory, oneRepMax, workoutVolume, DAY_MS, dayKey } from '../logic/calc.js';
+import { volumeByWeek, setsPerMuscle, exerciseHistory, oneRepMax, workoutVolume, DAY_MS, dayKey, platesPerSide } from '../logic/calc.js';
 import { computeBadges } from '../logic/badges.js';
 import { getMonetization } from '../services/monetization.js';
 import { openSheet, sourcesButton } from '../ui/sheets.js';
+import { healthSaveBodyMass } from '../services/native.js';
 
 const isPremium = () => getMonetization().isPremium;
 const calc = { w: 80, r: 6 };
+const plate = { target: null, bar: null };
 
 function overview() {
   const { workouts, profile, nutrition } = S.data;
@@ -84,12 +86,36 @@ function calcResult() {
     <div class="pct-grid">${[95, 90, 85, 80, 75, 70, 65, 60].map(p => `<div><span>${esc(t('calc_pct', { p }))}</span><b>${esc(fmtW(r.avg * p / 100))}</b></div>`).join('')}</div>`;
 }
 
+function plateResult() {
+  const u = unit();
+  const target = plate.target ?? (u === 'lb' ? 225 : 100);
+  const bar = plate.bar ?? (u === 'lb' ? 45 : 20);
+  const r = platesPerSide(target, bar, u);
+  if (!r) return `<p class="muted small">${esc(t('plate_invalid'))}</p>`;
+  const disc = p => `<span class="disc" style="--h:${Math.round(34 + p / (u === 'lb' ? 45 : 25) * 46)}px">${fmtNum(p, 2)}</span>`;
+  return `<div class="plates">${r.plates.length ? r.plates.map(disc).join('') : `<span class="muted small">${esc(t('plate_none'))}</span>`}</div>
+    <p class="small">${esc(t('plate_per_side'))}: <b>${r.plates.length ? r.plates.map(p => fmtNum(p, 2)).join(' + ') : '0'} ${esc(u)}</b></p>
+    ${r.leftover > 0 ? `<p class="warn small">${esc(t('plate_leftover', { n: `${fmtNum(r.leftover, 2)} ${u}` }))}</p>` : ''}`;
+}
+
+function plateCalculator() {
+  if (!isPremium()) return `<section class="card"><h3>${ic('circle-dot')} ${esc(t('plate_title'))}</h3>${premiumLock(t('pw_f7'))}</section>`;
+  const u = unit();
+  const bars = u === 'lb' ? [45, 35, 15] : [20, 15, 10];
+  const bar = plate.bar ?? bars[0];
+  return `<section class="card"><h3>${ic('circle-dot')} ${esc(t('plate_title'))}</h3>
+    <div class="row gap end">
+      <label class="field grow"><span>${esc(t('plate_target'))} (${esc(u)})</span><input inputmode="decimal" data-in="plate-target" value="${plate.target ?? (u === 'lb' ? 225 : 100)}"></label>
+      <label class="field grow"><span>${esc(t('plate_bar'))}</span><select data-chg="plate-bar">${bars.map(b => `<option value="${b}" ${b === bar ? 'selected' : ''}>${b} ${esc(u)}</option>`).join('')}</select></label>
+    </div><div id="plate-out">${plateResult()}</div></section>`;
+}
+
 function calculator() {
-  return `<section class="card"><h3>${esc(t('calc_title'))}</h3><p class="muted small">${esc(t('calc_text'))}</p>${sourcesButton('calc')}
+  return `<div class="cols"><div class="col"><section class="card"><h3>${esc(t('calc_title'))}</h3><p class="muted small">${esc(t('calc_text'))}</p>${sourcesButton('calc')}
     <div class="row gap">
       <label class="field grow"><span>${esc(t('calc_weight'))} (${esc(unit())})</span><input inputmode="decimal" data-in="calc-w" value="${inputW(calc.w)}"></label>
       <label class="field grow"><span>${esc(t('calc_reps'))}</span><input inputmode="numeric" data-in="calc-r" value="${calc.r}"></label>
-    </div><div id="calc-out">${calcResult()}</div></section>`;
+    </div><div id="calc-out">${calcResult()}</div></section></div><div class="col">${plateCalculator()}</div></div>`;
 }
 
 export function render() {
@@ -118,6 +144,7 @@ export const actions = {
     const date = dayKey();
     S.data.bodyWeight = S.data.bodyWeight.filter(b => b.date !== date).concat({ date, kg: Math.round(kg * 10) / 10 }).sort((a, b) => a.date.localeCompare(b.date));
     S.data.profile.weightKg = Math.round(kg * 10) / 10;
+    if (S.data.settings.health) healthSaveBodyMass(S.data.profile.weightKg);
     commit();
   }
 };
@@ -130,6 +157,15 @@ export const inputs = {
   'calc-w'(el) {
     calc.w = fromUnit(parseFloat(el.value.replace(',', '.')) || 0);
     document.getElementById('calc-out').innerHTML = calcResult();
+  },
+  'plate-target'(el) {
+    const v = parseFloat(el.value.replace(',', '.'));
+    plate.target = Number.isFinite(v) ? v : 0;
+    document.getElementById('plate-out').innerHTML = plateResult();
+  },
+  'plate-bar'(el) {
+    plate.bar = Number(el.value);
+    document.getElementById('plate-out').innerHTML = plateResult();
   },
   'calc-r'(el) {
     calc.r = Math.min(30, parseInt(el.value, 10) || 0);

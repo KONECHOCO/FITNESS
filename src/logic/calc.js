@@ -301,3 +301,20 @@ export function estimateKcal(workout, weightKg, highIntensity = false) {
   const hours = Math.max(0, ((workout.end || workout.start) - workout.start) / 3600000);
   return Math.round((highIntensity ? 8 : 5) * (weightKg || 70) * hours);
 }
+
+// ---------------------------------------------------------------- dischi
+export const PLATES = { kg: [25, 20, 15, 10, 5, 2.5, 1.25], lb: [45, 35, 25, 10, 5, 2.5] };
+
+/** Dischi da caricare per lato per arrivare a `target` con un bilanciere da `bar` (stessa unità). */
+export function platesPerSide(target, bar, unit = 'kg') {
+  if (!(target > 0) || !(bar >= 0) || target < bar) return null;
+  let rest = Math.round(((target - bar) / 2) * 100) / 100;
+  const plates = [];
+  for (const p of PLATES[unit] || PLATES.kg) {
+    while (rest + 1e-9 >= p) {
+      plates.push(p);
+      rest = Math.round((rest - p) * 100) / 100;
+    }
+  }
+  return { plates, leftover: Math.round(rest * 2 * 100) / 100 };
+}

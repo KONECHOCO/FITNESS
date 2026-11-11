@@ -73,6 +73,10 @@
 		<string>de</string>
 		<string>pt</string>
 	</array>
+	<key>NSHealthShareUsageDescription</key>
+	<string>AuraLift does not read your Health data. This permission is only requested together with saving your workouts.</string>
+	<key>NSHealthUpdateUsageDescription</key>
+	<string>AuraLift saves your completed workouts, estimated active calories and body weight to Apple Health so they count towards your Activity rings.</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
 	<!-- ID app AdMob "AuraLift" iOS -->

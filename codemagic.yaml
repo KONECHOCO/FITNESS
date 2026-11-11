@@ -1,7 +1,10 @@
 # AuraLift — build iOS per App Store Connect (TestFlight).
 #
-# Prerequisiti (già configurati): profilo "auralift_appstore" (App Store, com.ikonet.auralift) e certificato
-# "ithelpdesk_distribution_20260916" in Codemagic › Code signing identities.
+# Firma: certificato "ithelpdesk_distribution_20260916" su Codemagic; i profili App Store dell'app iPhone
+# (con HealthKit) e dell'app Apple Watch sono nel repo (ios/profiles, creati via API, scadono 16/09/2027) e
+# vengono installati da uno script. Codemagic richiede almeno un profilo in ios_signing: quello di FuelSaver
+# serve solo a questo, `xcode-project use-profiles` sceglie i profili con il bundle id corrispondente.
+# Il target watchOS e i file nativi vengono aggiunti al progetto Xcode da scripts/add-native-targets.rb.
 # Gli ID AdMob reali (non segreti) sono in .env.production e ios/App/App/Info.plist.
 workflows:
   ios-app-store:
@@ -20,7 +23,7 @@ workflows:
     environment:
       ios_signing:
         provisioning_profiles:
-          - auralift_appstore
+          - fuelsaver_appstore
         certificates:
           - ithelpdesk_distribution_20260916
       vars:
@@ -42,6 +45,14 @@ workflows:
         script: |
           npm run build
           npx cap sync ios
+      - name: Add native code and Apple Watch target
+        script: ruby scripts/add-native-targets.rb
+      - name: Install App Store provisioning profiles
+        script: |
+          PROFILES_DIR="$HOME/Library/MobileDevice/Provisioning Profiles"
+          mkdir -p "$PROFILES_DIR"
+          cp ios/profiles/auralift_appstore.mobileprovision "$PROFILES_DIR/75d7df48-7073-4796-8ba4-97f49ebfd125.mobileprovision"
+          cp ios/profiles/auralift_watch_appstore.mobileprovision "$PROFILES_DIR/35f64542-9055-49fa-9be9-f2e7a875c986.mobileprovision"
       - name: Set up signing profiles
         script: xcode-project use-profiles
       - name: Apply version and build number

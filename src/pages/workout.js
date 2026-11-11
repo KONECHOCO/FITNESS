@@ -7,6 +7,7 @@ import { EXERCISE_BY_ID } from '../data/exercises.js';
 import { lastPerformance, suggestNext, detectPRs, workoutVolume, estimateKcal } from '../logic/calc.js';
 import { sounds, haptic, scheduleRestEnd, cancelRestEnd, ensureNotificationPermission } from '../services/device.js';
 import { openSheet, confirmDialog } from '../ui/sheets.js';
+import { healthSaveWorkout } from '../services/native.js';
 
 const elapsed = s => (s.pausedAt || Date.now()) - s.start - s.pausedMs;
 
@@ -159,6 +160,45 @@ export function render() {
     </div>`;
 }
 
+// ---------------------------------------------------------------- Apple Watch
+/** Stato compatto dell'allenamento per il Watch: esercizio e serie correnti, fine del recupero. */
+export function watchState() {
+  const s = S.data.session;
+  if (!s) return { active: false };
+  let exIdx = s.exercises.findIndex(e => e.sets.some(x => !x.done));
+  const allDone = exIdx < 0 && s.exercises.length > 0;
+  if (exIdx < 0) exIdx = Math.max(0, s.exercises.length - 1);
+  const base = { active: true, workout: s.name || '', restEnd: s.rest && !s.rest.paused ? s.rest.endAt : 0, allDone };
+  const e = s.exercises[exIdx];
+  if (!e) return { ...base, exercise: '', exIndex: 0, exCount: 0, setIndex: 0, setCount: 0, weight: '', reps: 0, timed: false };
+  const ex = EXERCISE_BY_ID[e.exId];
+  let setIdx = e.sets.findIndex(x => !x.done);
+  if (setIdx < 0) setIdx = e.sets.length - 1;
+  const set = e.sets[setIdx] || {};
+  return {
+    ...base,
+    exercise: tr(ex.name), exIndex: exIdx + 1, exCount: s.exercises.length,
+    setIndex: setIdx + 1, setCount: e.sets.length,
+    weight: ex.timed || !set.w ? '' : fmtW(set.w), reps: Number(set.r || e.target) || 0, timed: Boolean(ex.timed)
+  };
+}
+
+/** Azioni ricevute dal Watch. */
+export function handleWatchAction(action) {
+  const s = S.data.session;
+  if (!s) return;
+  if (action === 'setDone') {
+    const e = s.exercises.findIndex(x => x.sets.some(y => !y.done));
+    if (e < 0) return;
+    const set = s.exercises[e].sets.findIndex(y => !y.done);
+    actions['set-toggle']({ dataset: { e: String(e), s: String(set) } });
+  } else if (action === 'restSkip') {
+    if (s.rest) actions['rest-skip']();
+  } else if (action === 'rest+15') {
+    actions['rest-adj']({ dataset: { d: '15' } });
+  }
+}
+
 // ---------------------------------------------------------------- azioni
 function finishWorkout() {
   const s = S.data.session;
@@ -175,6 +215,7 @@ function finishWorkout() {
   workout.kcal = estimateKcal(workout, S.data.profile.weightKg, s.highIntensity);
   workout.volume = workoutVolume(workout);
   S.data.workouts.push(workout);
+  if (S.data.settings.health) healthSaveWorkout(workout, s.highIntensity);
   S.data.session = null;
   cancelRestEnd();
   sounds.done();

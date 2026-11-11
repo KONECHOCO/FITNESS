@@ -11,10 +11,11 @@ import './styles/main.css';
 import { Capacitor } from '@capacitor/core';
 import { App as CapApp } from '@capacitor/app';
 import { StatusBar, Style } from '@capacitor/status-bar';
-import { S, ui, onRender, hydrate } from './store.js';
+import { S, ui, onRender, hydrate, ACCENTS } from './store.js';
 import { loadState, flush } from './services/storage.js';
 import { initMonetization, onMonetization, adOnNavigate, getMonetization } from './services/monetization.js';
 import { sound } from './services/device.js';
+import { syncWatch, onWatchAction } from './services/native.js';
 import { t, setLang, detectLang } from './i18n/index.js';
 import { esc, ic } from './ui/dom.js';
 import { dayKey } from './logic/calc.js';
@@ -60,7 +61,7 @@ function header() {
   const initials = (p.name || '').trim().slice(0, 1).toUpperCase() || ic('user');
   const premium = getMonetization().isPremium;
   return `<header class="topbar">
-    <div class="brand"><span class="brand-mark">${ic('bolt')}</span><span class="brand-name">Aura<b>Lift</b></span>${premium ? '<span class="pro-pill">PREMIUM</span>' : ''}</div>
+    <div class="brand"><span class="brand-mark">${ic('bolt')}</span><span class="brand-name">Aura<b>Lift</b></span>${premium ? '<span class="pro-pill">PRO</span>' : ''}</div>
     <div class="topbar-actions">
       <button class="icon-btn" data-act="open-coach" aria-label="${esc(t('coach_title'))}">${ic('wand-magic-sparkles')}</button>
       <button class="avatar-btn" data-act="open-settings" aria-label="${esc(t('st_title'))}">${initials}</button>
@@ -75,7 +76,17 @@ function nav() {
     </button>`).join('')}</nav>`;
 }
 
+function applyAccent() {
+  const key = getMonetization().isPremium ? S.data.settings.accent : 'lime';
+  const [c, ink, rgb] = ACCENTS[key] || ACCENTS.lime;
+  const st = document.documentElement.style;
+  st.setProperty('--accent', c);
+  st.setProperty('--accent-ink', ink);
+  st.setProperty('--accent-soft', `rgba(${rgb}, 0.12)`);
+}
+
 export function render() {
+  applyAccent();
   const root = document.getElementById('app');
   if (!S.data.profile.onboarded) {
     root.innerHTML = onboarding.render();
@@ -85,6 +96,7 @@ export function render() {
   }
   sheets.renderSheets();
   workout.tick();
+  syncWatch(workout.watchState());
 }
 onRender(render);
 
@@ -145,7 +157,11 @@ async function boot() {
   window.addEventListener('pagehide', flush);
 
   render();
-  setInterval(workout.tick, 1000);
+  setInterval(() => {
+    workout.tick();
+    syncWatch(workout.watchState());
+  }, 1000);
+  onWatchAction(workout.handleWatchAction);
   // Ridisegna solo quando cambia lo stato Premium o arrivano i prezzi (non a ogni cambio del banner,
   // per non far perdere il focus ai campi di input)
   let lastKey = '';
@@ -156,7 +172,7 @@ async function boot() {
       render();
     }
   });
-  initMonetization();
+  initMonetization({ shouldBlockFullscreen: () => !S.data.profile.onboarded || Boolean(S.data.session) });
 }
 
 boot();

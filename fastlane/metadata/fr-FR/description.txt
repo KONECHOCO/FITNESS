@@ -29,14 +29,17 @@ SMART COACH
 • Répond à vos questions sur l'entraînement et la nutrition avec des recommandations fondées sur la science et personnalisées avec vos données
 • Informations générales qui ne remplacent pas un avis médical
 
+APPLE WATCH ET APPLE SANTÉ
+• App Apple Watch : pendant la séance, voyez exercice, série et repos, et validez les séries depuis le poignet
+• Séances, calories estimées et poids enregistrés dans Apple Santé (facultatif) : ils comptent dans les anneaux Activité
+
 ET AUSSI
 • Rappels d'entraînement, kg ou lb, 6 langues
 • Vos données restent sur votre appareil : aucun compte nécessaire
 
-VERSION GRATUITE ET PREMIUM
-AuraLift est gratuite, avec des publicités non personnalisées et quelques limites (3 programmes personnels, 1 séance générée par jour, historique des 30 derniers jours).
-AuraLift Premium supprime la publicité et débloque programmes et générateur illimités, historique complet, graphiques avancés, toute l'analyse du Smart Coach et l'export des données.
-Premium mensuel ou annuel, avec 7 jours d'essai gratuit. Le paiement est débité sur votre identifiant Apple à la fin de l'essai. L'abonnement se renouvelle automatiquement sauf s'il est désactivé au moins 24 heures avant la fin de la période en cours. Gérez-le ou résiliez-le dans les réglages de votre compte App Store.
+VERSION GRATUITE ET PRO
+AuraLift est gratuite, avec des publicités non personnalisées (dont une vidéo à l'ouverture) et quelques limites (3 programmes personnels, 1 séance générée par jour, historique des 30 derniers jours).
+AuraLift Pro est un ACHAT UNIQUE, sans abonnement : il supprime toute la publicité et débloque le calculateur de disques, les thèmes de couleur, programmes et générateur illimités, l'historique complet, les graphiques avancés, toute l'analyse du Smart Coach et l'export des données. Restaurez-le gratuitement sur tous vos appareils.
 
 Conditions d'utilisation : https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 Confidentialité : https://konechoco.github.io/auralift/privacy-policy.html

@@ -130,3 +130,11 @@ test('dati: traduzioni complete e riferimenti validi', () => {
   for (const f of FOODS) for (const l of LANGS) assert.ok(f.name[l], `alimento ${f.id}.${l}`);
   assert.equal(new Set(EXERCISES.map(e => e.id)).size, EXERCISES.length);
 });
+
+test('calcolatore dischi', async () => {
+  const { platesPerSide } = await import('../src/logic/calc.js');
+  assert.deepEqual(platesPerSide(100, 20), { plates: [25, 15], leftover: 0 });
+  assert.deepEqual(platesPerSide(61, 20), { plates: [20], leftover: 1 });
+  assert.deepEqual(platesPerSide(225, 45, 'lb'), { plates: [45, 45], leftover: 0 });
+  assert.equal(platesPerSide(10, 20), null);
+});

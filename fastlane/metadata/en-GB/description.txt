@@ -29,14 +29,17 @@ SMART COACH
 • Answers training and nutrition questions with evidence-based guidelines personalised with your data
 • General information, not a substitute for medical advice
 
+APPLE WATCH AND APPLE HEALTH
+• Apple Watch app: during a workout see exercise, set and rest, and log sets from your wrist
+• Workouts, estimated calories and body weight saved to Apple Health (optional): they count towards your Activity rings
+
 MORE
 • Workout reminders, kg or lb, 6 languages
 • Your data stays on your device: no account required
 
-FREE AND PREMIUM
-AuraLift is free, with non-personalised ads and some limits (3 custom routines, 1 generated workout per day, last 30 days of history).
-AuraLift Premium removes ads and unlocks unlimited routines and generator, full history, advanced charts, the complete Smart Coach analysis and data export.
-Premium is available monthly or yearly with a 7-day free trial. Payment is charged to your Apple ID when the trial ends. Subscriptions renew automatically unless turned off at least 24 hours before the end of the current period. Manage or cancel in your App Store account settings.
+FREE AND PRO
+AuraLift is free, with non-personalised ads (including a video when the app opens) and some limits (3 custom routines, 1 generated workout per day, last 30 days of history).
+AuraLift Pro is a ONE-TIME PURCHASE, no subscription: it removes all ads and unlocks the plate calculator, colour themes, unlimited routines and generator, full history, advanced charts, the complete Smart Coach analysis and data export. Restore it for free on all your devices.
 
 Terms of Use: https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 Privacy Policy: https://konechoco.github.io/auralift/privacy-policy.html

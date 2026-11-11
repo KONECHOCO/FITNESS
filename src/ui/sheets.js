@@ -3,8 +3,9 @@ import { Capacitor } from '@capacitor/core';
 import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 import { Share } from '@capacitor/share';
 import { Browser } from '@capacitor/browser';
+import { healthSupported, healthAuthorize } from '../services/native.js';
 import { SOURCES, SOURCE_BY_ID, TOPIC_SOURCES } from '../data/sources.js';
-import { S, ui, commit, uid, FREE, defaultState } from '../store.js';
+import { S, ui, commit, uid, FREE, defaultState, ACCENTS } from '../store.js';
 import { clearState } from '../services/storage.js';
 import { t, tr, fmtNum, fmtList, fmtDate, fmtDuration, setLang, getLang, LANG_NAMES } from '../i18n/index.js';
 import { esc, ic, fmtW, fmtVolume, muscleName, toast, premiumLock, emptyState } from './dom.js';
@@ -16,7 +17,7 @@ import { exerciseHistory, foodPortion, workoutVolume, dayKey } from '../logic/ca
 import { generateWorkout } from '../logic/generator.js';
 import { buildInsights, matchTopic, answerParams } from '../logic/coach.js';
 import {
-  getMonetization, buyPremium, restorePremium, manageSubscription, showPrivacyOptions, adAfterWorkout, PRODUCTS
+  getMonetization, buyPremium, restorePremium, manageSubscription, showPrivacyOptions, adAfterWorkout, PRO_PRODUCT_ID
 } from '../services/monetization.js';
 import { sound, scheduleReminders, ensureNotificationPermission } from '../services/device.js';
 // Import circolari: le funzioni delle pagine vengono usate solo in risposta ai tocchi, mai al caricamento
@@ -303,9 +304,9 @@ const RENDER = {
     const days = t('st_weekdays').split(',');
     const info = m.premiumInfo;
     const premium = m.isPremium
-      ? `<div class="setting-card premium-on">${ic('crown')}<div><strong>${esc(t(info?.trial ? 'st_premium_trial' : 'st_premium_active'))}</strong>
-          ${info?.expires ? `<span class="muted small">${esc(t(info.willCancel ? 'st_premium_ends' : 'st_premium_renews', { date: fmtDate(info.expires, { day: 'numeric', month: 'long', year: 'numeric' }) }))}</span>` : ''}</div></div>
-        ${m.native ? `<button class="set-row-btn" data-act="manage-sub">${esc(t('st_manage'))}${ic('chevron-right')}</button>` : ''}`
+      ? `<div class="setting-card premium-on">${ic('crown')}<div><strong>${esc(t('st_premium_active'))}</strong>
+          ${info?.legacySub && info.expires ? `<span class="muted small">${esc(t(info.willCancel ? 'st_premium_ends' : 'st_premium_renews', { date: fmtDate(info.expires, { day: 'numeric', month: 'long', year: 'numeric' }) }))}</span>` : `<span class="muted small">${esc(t('pw_once'))}</span>`}</div></div>
+        ${m.native && info?.legacySub ? `<button class="set-row-btn" data-act="manage-sub">${esc(t('st_manage'))}${ic('chevron-right')}</button>` : ''}`
       : `<button class="card upsell" data-act="paywall">${ic('crown')}<div><strong>${esc(t('pw_title'))}</strong><span>${esc(t('pw_subtitle'))}</span></div>${ic('chevron-right')}</button>`;
     const body = `${premium}
       <button class="set-row-btn" data-act="restore">${esc(t('st_restore'))}${ic('rotate')}</button>
@@ -318,8 +319,13 @@ const RENDER = {
       <label class="set-row"><span>${esc(t('st_reminders'))}</span><input type="checkbox" class="switch" data-chg="set-reminders" ${st.reminders.enabled ? 'checked' : ''}></label>
       ${st.reminders.enabled ? `<div class="days-pick small">${days.map((d, i) => `<button class="${st.reminders.days.includes(i + 1) ? 'on' : ''}" data-act="reminder-day" data-v="${i + 1}">${esc(d)}</button>`).join('')}</div>
         <label class="set-row"><span>${esc(t('st_reminder_time'))}</span><input type="time" data-chg="set-reminder-time" value="${st.reminders.time}"></label>` : ''}
+      ${healthSupported ? `<label class="set-row"><span>${ic('heart-pulse', 'danger')} ${esc(t('st_health'))}</span><input type="checkbox" class="switch" data-chg="set-health" ${st.health ? 'checked' : ''}></label>
+        <p class="muted tiny">${esc(t('st_health_desc'))}</p>
+        <div class="set-row"><span>${ic('clock')} ${esc(t('st_watch'))}</span></div>
+        <p class="muted tiny">${esc(t('st_watch_desc'))}</p>` : ''}
       <h4>${esc(t('st_app'))}</h4>
       <label class="set-row"><span>${esc(t('st_language'))}</span><select data-chg="set-lang">${Object.entries(LANG_NAMES).map(([k, v]) => `<option value="${k}" ${getLang() === k ? 'selected' : ''}>${v}</option>`).join('')}</select></label>
+      <div class="set-row"><span>${esc(t('st_theme'))}${isPremium() ? '' : ` ${ic('crown', 'gold')}`}</span><div class="swatches">${Object.entries(ACCENTS).map(([k, [c]]) => `<button class="swatch ${(isPremium() ? st.accent : 'lime') === k ? 'on' : ''}" style="background:${c}" data-act="set-accent" data-v="${k}" aria-label="${k}"></button>`).join('')}</div></div>
       <label class="set-row"><span>${esc(t('st_sound'))}</span><input type="checkbox" class="switch" data-chg="set-sound" ${st.sound ? 'checked' : ''}></label>
       ${m.native && !m.isPremium ? `<button class="set-row-btn" data-act="ads-privacy">${esc(t('st_ads_privacy'))}${ic('shield-halved')}</button>` : ''}
       <button class="set-row-btn" data-act="open-sources">${esc(t('src_title'))}${ic('book-medical')}</button>
@@ -344,23 +350,17 @@ const RENDER = {
 
   paywall(s) {
     const m = getMonetization();
-    const yearly = m.products[PRODUCTS.yearly];
-    const monthly = m.products[PRODUCTS.monthly];
-    const plan = s.plan || 'yearly';
-    const save = yearly && monthly && monthly.price > 0 ? Math.round((1 - yearly.price / (monthly.price * 12)) * 100) : null;
-    const perMonth = yearly ? new Intl.NumberFormat(undefined, { style: 'currency', currency: yearly.currencyCode || 'EUR' }).format(yearly.price / 12) : null;
-    const selected = plan === 'yearly' ? yearly : monthly;
-    const priceLabel = selected ? `${selected.priceString}/${plan === 'yearly' ? t('pw_yearly').toLowerCase() : t('pw_monthly').toLowerCase()}` : '';
-    const planBtn = (id, label, prod, extra) => `<button class="plan ${plan === id ? 'on' : ''}" data-act="pw-plan" data-v="${id}">
-      <div><strong>${esc(label)}</strong>${extra ? `<span class="muted small">${esc(extra)}</span>` : ''}</div>
-      <div class="plan-p">${prod ? esc(prod.priceString) : '—'}</div>${id === 'yearly' && save > 0 ? `<span class="plan-badge">${esc(t('pw_save', { n: save }))}</span>` : ''}</button>`;
+    const pro = m.products[PRO_PRODUCT_ID];
+    const price = pro?.priceString || '';
+    const feats = ['pw_f1', 'pw_f7', 'pw_f8', 'pw_f2', 'pw_f3', 'pw_f4', 'pw_f5', 'pw_f6'];
     const body = `<div class="pw-hero">${ic('crown')}<h2>${esc(t('pw_title'))}</h2><p>${esc(t('pw_subtitle'))}</p></div>
-      <ul class="pw-list">${['pw_f1', 'pw_f2', 'pw_f3', 'pw_f4', 'pw_f5', 'pw_f6'].map(k => `<li>${ic('check')} ${esc(t(k))}</li>`).join('')}</ul>
-      ${m.native ? `${planBtn('yearly', t('pw_yearly'), yearly, perMonth ? t('pw_per_month', { p: perMonth }) : t('pw_trial_badge'))}${planBtn('monthly', t('pw_monthly'), monthly, t('pw_trial_badge'))}
-        ${!yearly && !monthly ? `<p class="muted small center">${esc(t('pw_loading'))}</p>` : ''}` : `<p class="muted center">${esc(t('pw_unavailable'))}</p>`}`;
-    const foot = `${m.native ? `<button class="btn btn-accent btn-block btn-lg" data-act="pw-buy" ${selected ? '' : 'disabled'}>${esc(t('pw_cta_trial'))}</button>` : ''}
+      <ul class="pw-list">${feats.map(k => `<li>${ic('check')} ${esc(t(k))}</li>`).join('')}</ul>
+      ${m.native ? `<div class="plan on"><div><strong>${esc(t('pw_lifetime'))}</strong><span class="muted small">${esc(t('pw_once'))}</span></div>
+        <div class="plan-p">${pro ? esc(price) : '—'}</div></div>
+        ${!pro ? `<p class="muted small center">${esc(t('pw_loading'))}</p>` : ''}` : `<p class="muted center">${esc(t('pw_unavailable'))}</p>`}`;
+    const foot = `${m.native ? `<button class="btn btn-accent btn-block btn-lg" data-act="pw-buy" ${pro ? '' : 'disabled'}>${esc(t('pw_cta', { price }))}</button>` : ''}
       <button class="btn btn-text btn-block" data-act="sheet-close">${esc(t('pw_free'))}</button>
-      ${m.native ? `<p class="legal">${esc(t('pw_legal', { price: priceLabel || '—' }))}</p>
+      ${m.native ? `<p class="legal">${esc(t('pw_legal', { price: price || '—' }))}</p>
         <p class="legal"><button class="link" data-act="restore">${esc(t('st_restore'))}</button> · <a href="${TERMS_URL}" target="_blank" rel="noopener">${esc(t('st_terms'))}</a> · <a href="${PRIVACY_URL}" target="_blank" rel="noopener">${esc(t('st_privacy'))}</a></p>` : ''}`;
     return shell(s, '', body, { full: true, foot });
   }
@@ -440,6 +440,14 @@ function applyReminders() {
 // ---------------------------------------------------------------- azioni
 export const actions = {
   'sheet-close': closeTopSheet,
+  'set-accent'(el) {
+    if (!isPremium()) {
+      openSheet({ type: 'paywall' });
+      return;
+    }
+    S.data.settings.accent = el.dataset.v;
+    commit();
+  },
   'open-sources'(el) {
     openSheet({ type: 'sources', topic: el.dataset.topic || null });
   },
@@ -625,15 +633,10 @@ export const actions = {
     ui.onboardingStep = 0;
     commit();
   },
-  'pw-plan'(el) {
-    top().plan = el.dataset.v;
-    renderSheets();
-  },
   async 'pw-buy'(el) {
-    const plan = top().plan || 'yearly';
     el.disabled = true;
     try {
-      const ok = await buyPremium(PRODUCTS[plan]);
+      const ok = await buyPremium();
       if (ok) {
         toast(t('pw_welcome'));
         closeTopSheet();
@@ -685,6 +688,19 @@ export const inputs = {
     S.data.settings.lang = el.value;
     setLang(el.value);
     applyReminders();
+    commit();
+  },
+  async 'set-health'(el) {
+    if (el.checked) {
+      const ok = await healthAuthorize();
+      if (!ok) {
+        el.checked = false;
+        toast(t('health_denied'));
+      }
+      S.data.settings.health = ok;
+    } else {
+      S.data.settings.health = false;
+    }
     commit();
   },
   'set-sound'(el) {

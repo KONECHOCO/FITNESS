@@ -11,7 +11,7 @@ export function defaultState() {
       goal: 'muscle', level: 1, daysPerWeek: 3, location: 'gym', equipment: [], unit: 'kg',
       onboarded: false, createdAt: Date.now()
     },
-    settings: { lang: null, sound: true, restDefault: 90, reminders: { enabled: false, days: [1, 3, 5], time: '18:00' } },
+    settings: { lang: null, sound: true, restDefault: 90, accent: 'lime', health: false, reminders: { enabled: false, days: [1, 3, 5], time: '18:00' } },
     routines: [],
     workouts: [],
     session: null,
@@ -24,6 +24,15 @@ export function defaultState() {
 }
 
 export const S = { data: defaultState() };
+
+// Temi colore (funzione Pro): [accento, testo sull'accento, r,g,b]
+export const ACCENTS = {
+  lime: ['#c6f24e', '#10140a', '198, 242, 78'],
+  cyan: ['#5ad1fa', '#04141b', '90, 209, 250'],
+  orange: ['#ff9f43', '#1d1003', '255, 159, 67'],
+  pink: ['#ff6fae', '#1d0612', '255, 111, 174'],
+  violet: ['#a78bfa', '#120a26', '167, 139, 250']
+};
 
 export const ui = {
   tab: 'home',

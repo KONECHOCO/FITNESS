@@ -440,3 +440,22 @@ button.card, [data-act].card { cursor: pointer; }
 .cites { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--line); font-size: 0.74rem; color: var(--muted); display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
 .cite { color: var(--blue); text-decoration: underline; font-size: 0.74rem; }
 .nu-foot { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 10px; padding-top: 10px; border-top: 1px solid var(--line); }
+
+/* ---------------------------------------------------------------- calcolatore dischi */
+.plates { display: flex; align-items: center; gap: 4px; min-height: 90px; padding: 8px 0 8px 18px; position: relative; }
+.plates::before { content: ''; position: absolute; left: 0; right: 0; top: 50%; height: 8px; margin-top: -4px; background: #4a5368; border-radius: 4px; z-index: 0; }
+.disc { position: relative; z-index: 1; display: grid; place-items: center; width: 26px; height: var(--h); border-radius: 6px; background: var(--accent); color: var(--accent-ink);
+  font-size: 0.66rem; font-weight: 700; writing-mode: vertical-rl; transform: rotate(180deg); }
+.swatches { display: flex; gap: 8px; }
+.swatch { width: 28px; height: 28px; border-radius: 50%; border: 2px solid transparent; box-shadow: 0 0 0 1px var(--line); }
+.swatch.on { border-color: #fff; }
+
+/* ---------------------------------------------------------------- spazio per il banner pubblicitario */
+.onboarding { padding-bottom: calc(var(--safe-b) + var(--ad-h) + 16px); min-height: calc(100vh - var(--ad-h)); }
+.ob-foot { position: sticky; bottom: calc(var(--ad-h) + var(--safe-b)); background: var(--bg); padding-top: 12px; }
+.sheet { bottom: var(--ad-h); max-height: calc(100vh - var(--safe-t) - var(--ad-h) - 24px); }
+.sheet.full { height: calc(100vh - var(--safe-t) - var(--ad-h) - 24px); }
+@media (min-width: 740px) {
+  .sheet { bottom: auto; top: calc(50% - var(--ad-h) / 2); max-height: calc(100vh - 80px - var(--ad-h)); }
+  .sheet.full { height: min(860px, calc(100vh - 80px - var(--ad-h))); }
+}
