@@ -30,7 +30,7 @@ end
 
 # Framework di sistema (il link automatico di Swift basta, ma rendiamolo esplicito)
 %w[HealthKit WatchConnectivity].each do |fw|
-  next if app.frameworks_build_phase.files_references.any? { |r| r.path.to_s.end_with?("#{fw}.framework") }
+  next if app.frameworks_build_phase.files_references.compact.any? { |r| r.path.to_s.end_with?("#{fw}.framework") }
   app.add_system_framework(fw)
 end
 
