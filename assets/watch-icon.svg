@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024">
+  <defs>
+    <radialGradient id="bg" cx="0.5" cy="0.4" r="0.7">
+      <stop offset="0" stop-color="#dcff7d"/>
+      <stop offset="1" stop-color="#a9d92e"/>
+    </radialGradient>
+  </defs>
+  <!-- Sfondo chiaro a tutta pagina: watchOS ritaglia l'icona in un cerchio -->
+  <rect width="1024" height="1024" fill="url(#bg)"/>
+  <path d="M565 190 L320 585 L480 585 L440 834 L704 425 L540 425 Z" fill="#0b0e14"/>
+</svg>
