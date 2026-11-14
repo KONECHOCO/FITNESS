@@ -1,4 +1,6 @@
 export default {
+  // programma ambasciatori
+  ref_question: "Have an invitation code?", ref_title: "Invitation code", ref_placeholder: "E.g. AMADOU123", ref_apply: "Apply", ref_applied: "Invitation code applied:", ref_invalid: "Invalid code. Please check and try again.", ref_network: "No connection. Please try again shortly.", ref_expired: "An invitation code can only be entered within 7 days of installing.", ref_hint: "If someone recommended this app to you, enter their code: nothing changes for you and we collect no personal data.",
   app_tagline: 'Gym and home workouts',
   cancel: 'Cancel', save: 'Save', close: 'Close', delete: 'Delete', edit: 'Edit', back: 'Back', next: 'Next',
   done: 'Done', start: 'Start', continue: 'Continue', add: 'Add', search: 'Search', all: 'All', today: 'Today',

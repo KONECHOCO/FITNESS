@@ -1,4 +1,6 @@
 export default {
+  // programma ambasciatori
+  ref_question: "Tu as un code d’invitation ?", ref_title: "Code d’invitation", ref_placeholder: "Ex. AMADOU123", ref_apply: "Valider", ref_applied: "Code d’invitation appliqué :", ref_invalid: "Code invalide. Vérifie et réessaie.", ref_network: "Pas de connexion. Réessaie dans un instant.", ref_expired: "Le code d’invitation ne peut être saisi que dans les 7 jours suivant l’installation.", ref_hint: "Si quelqu’un t’a recommandé l’appli, saisis son code : rien ne change pour toi et nous ne collectons aucune donnée personnelle.",
   app_tagline: 'Entraînement en salle et à la maison',
   cancel: 'Annuler', save: 'Enregistrer', close: 'Fermer', delete: 'Supprimer', edit: 'Modifier', back: 'Retour', next: 'Suivant',
   done: 'Terminé', start: 'Commencer', continue: 'Continuer', add: 'Ajouter', search: 'Rechercher', all: 'Tous', today: 'Aujourd\'hui',

@@ -11,9 +11,10 @@
 import { Capacitor } from '@capacitor/core';
 import { App as CapApp } from '@capacitor/app';
 import {
-  AdMob, AdmobConsentStatus, AppOpenAdPluginEvents, BannerAdPluginEvents, BannerAdPosition, BannerAdSize
+  AdMob, AdmobConsentStatus, AppOpenAdPluginEvents, BannerAdPluginEvents, BannerAdPosition, BannerAdSize, InterstitialAdPluginEvents
 } from '@capacitor-community/admob';
 import { NativePurchases, PURCHASE_TYPE } from '@capgo/native-purchases';
+import { attachAdMobListeners, trackPurchase } from './referral.js';
 
 export const PRO_PRODUCT_ID = 'auralift_pro';
 // Abbonamenti della versione 1.0, non più in vendita nell'app ma ancora validi per chi li ha
@@ -132,8 +133,10 @@ export async function loadProducts() {
 export async function buyPremium() {
   if (!native) throw new Error('store_unavailable');
   const tx = await NativePurchases.purchaseProduct({ productIdentifier: PRO_PRODUCT_ID, productType: PURCHASE_TYPE.INAPP, quantity: 1 });
-  if (tx?.productIdentifier === PRO_PRODUCT_ID) await applyEntitlements([tx], []);
-  else await refreshPremium();
+  if (tx?.productIdentifier === PRO_PRODUCT_ID) {
+    await applyEntitlements([tx], []);
+    trackPurchase();
+  } else await refreshPremium();
   return state.isPremium;
 }
 
@@ -298,6 +301,8 @@ export async function initMonetization(opts = {}) {
   await AdMob.initialize({ initializeForTesting: USE_TEST_ADS });
   setState({ adsReady: true });
   AdMob.addListener(BannerAdPluginEvents.SizeChanged, size => setState({ bannerHeight: size.height || 0 }));
+  // Programma ambasciatori: conta gli annunci visti dagli utenti invitati (nulla per gli altri)
+  attachAdMobListeners(AdMob, { BannerAdPluginEvents, AppOpenAdPluginEvents, InterstitialAdPluginEvents });
   AdMob.addListener(AppOpenAdPluginEvents.Closed, () => {
     showing = false;
     lastFullscreenAt = Date.now();

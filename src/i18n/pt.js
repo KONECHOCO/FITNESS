@@ -1,4 +1,6 @@
 export default {
+  // programma ambasciatori
+  ref_question: "Tem um código de convite?", ref_title: "Código de convite", ref_placeholder: "Ex. AMADOU123", ref_apply: "Aplicar", ref_applied: "Código de convite aplicado:", ref_invalid: "Código inválido. Verifique e tente novamente.", ref_network: "Sem ligação. Tente novamente daqui a pouco.", ref_expired: "O código de convite só pode ser introduzido nos primeiros 7 dias após a instalação.", ref_hint: "Se alguém lhe recomendou a app, introduza o código dessa pessoa: para si nada muda e não recolhemos dados pessoais.",
   app_tagline: 'Treino na academia e em casa',
   cancel: 'Cancelar', save: 'Salvar', close: 'Fechar', delete: 'Excluir', edit: 'Editar', back: 'Voltar', next: 'Avançar',
   done: 'Concluído', start: 'Começar', continue: 'Continuar', add: 'Adicionar', search: 'Buscar', all: 'Todos', today: 'Hoje',

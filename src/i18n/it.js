@@ -1,4 +1,6 @@
 export default {
+  // programma ambasciatori
+  ref_question: "Hai un codice invito?", ref_title: "Codice invito", ref_placeholder: "Es. AMADOU123", ref_apply: "Applica", ref_applied: "Codice invito applicato:", ref_invalid: "Codice non valido. Controlla e riprova.", ref_network: "Connessione assente. Riprova tra poco.", ref_expired: "Il codice invito si può inserire solo nei primi 7 giorni dall’installazione.", ref_hint: "Se qualcuno ti ha consigliato l’app, inserisci il suo codice: per te non cambia nulla e non raccogliamo dati personali.",
   // generali
   app_tagline: 'Allenamento in palestra e a casa',
   cancel: 'Annulla', save: 'Salva', close: 'Chiudi', delete: 'Elimina', edit: 'Modifica', back: 'Indietro', next: 'Avanti',

@@ -24,6 +24,7 @@ import { sound, scheduleReminders, ensureNotificationPermission } from '../servi
 import { startWorkout, addExerciseToSession } from '../pages/workout.js';
 import { addEntry } from '../pages/nutrition.js';
 import { bodyForm, bodyValid } from '../pages/onboarding.js';
+import { getReferralState, canEnterCode, setReferralCode, referralUi } from '../services/referral.js';
 
 const PRIVACY_URL = 'https://konechoco.github.io/auralift/privacy-policy.html';
 const TERMS_URL = 'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/';
@@ -308,8 +309,16 @@ const RENDER = {
           ${info?.legacySub && info.expires ? `<span class="muted small">${esc(t(info.willCancel ? 'st_premium_ends' : 'st_premium_renews', { date: fmtDate(info.expires, { day: 'numeric', month: 'long', year: 'numeric' }) }))}</span>` : `<span class="muted small">${esc(t('pw_once'))}</span>`}</div></div>
         ${m.native && info?.legacySub ? `<button class="set-row-btn" data-act="manage-sub">${esc(t('st_manage'))}${ic('chevron-right')}</button>` : ''}`
       : `<button class="card upsell" data-act="paywall">${ic('crown')}<div><strong>${esc(t('pw_title'))}</strong><span>${esc(t('pw_subtitle'))}</span></div>${ic('chevron-right')}</button>`;
+    const rs = getReferralState();
+    const referral = !rs.enabled ? ''
+      : rs.code ? `<div class="set-row"><span>${ic('gift')} ${esc(t('ref_applied'))} <strong>${esc(rs.code)}</strong></span></div>`
+      : canEnterCode(rs) ? `<h4>${ic('gift')} ${esc(t('ref_title'))}</h4>
+        <div class="chat-in"><input id="ref-input" data-enter="ref-apply" placeholder="${esc(t('ref_placeholder'))}" maxlength="20" autocapitalize="characters" autocorrect="off" spellcheck="false"><button class="btn btn-accent" data-act="ref-apply" ${referralUi.busy ? 'disabled' : ''}>${esc(t('ref_apply'))}</button></div>
+        ${referralUi.error ? `<p class="small danger">${esc(referralUi.error)}</p>` : ''}
+        <p class="muted tiny">${esc(t('ref_hint'))}</p>` : '';
     const body = `${premium}
       <button class="set-row-btn" data-act="restore">${esc(t('st_restore'))}${ic('rotate')}</button>
+      ${referral}
       <h4>${esc(t('st_profile'))}</h4>
       <button class="set-row-btn" data-act="open-profile"><span>${esc(p.name || t('st_profile'))} · ${esc(t(`goal_${p.goal}`))} · ${esc(fmtW(p.weightKg || 0))}</span>${ic('pen')}</button>
       <h4>${esc(t('st_training'))}</h4>
@@ -590,6 +599,17 @@ export const actions = {
     addEntry({ foodId: null, name, grams: null, meal: s.meal, kcal, p: num('cf-p'), c: num('cf-c'), f: num('cf-f') });
   },
 
+  async 'ref-apply'() {
+    const value = document.getElementById('ref-input')?.value || '';
+    if (!value.trim() || referralUi.busy) return;
+    referralUi.busy = true;
+    referralUi.error = '';
+    const res = await setReferralCode(value);
+    referralUi.busy = false;
+    referralUi.error = res === 'ok' ? '' : t(`ref_${res}`);
+    if (res === 'ok') toast(`${t('ref_applied')} ${getReferralState().code}`);
+    commit();
+  },
   'coach-send'() {
     const input = document.getElementById('coach-input');
     sendCoach(input?.value || '');

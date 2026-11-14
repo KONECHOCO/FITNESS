@@ -1,4 +1,6 @@
 export default {
+  // programma ambasciatori
+  ref_question: "Hast du einen Einladungscode?", ref_title: "Einladungscode", ref_placeholder: "z. B. AMADOU123", ref_apply: "Einlösen", ref_applied: "Einladungscode eingelöst:", ref_invalid: "Ungültiger Code. Bitte prüfen und erneut versuchen.", ref_network: "Keine Verbindung. Bitte gleich erneut versuchen.", ref_expired: "Ein Einladungscode kann nur in den ersten 7 Tagen nach der Installation eingegeben werden.", ref_hint: "Wenn dir jemand die App empfohlen hat, gib seinen Code ein: Für dich ändert sich nichts und wir erfassen keine persönlichen Daten.",
   app_tagline: 'Training im Studio und zu Hause',
   cancel: 'Abbrechen', save: 'Speichern', close: 'Schließen', delete: 'Löschen', edit: 'Bearbeiten', back: 'Zurück', next: 'Weiter',
   done: 'Fertig', start: 'Starten', continue: 'Weiter', add: 'Hinzufügen', search: 'Suchen', all: 'Alle', today: 'Heute',

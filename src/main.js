@@ -14,6 +14,7 @@ import { StatusBar, Style } from '@capacitor/status-bar';
 import { S, ui, onRender, hydrate, ACCENTS } from './store.js';
 import { loadState, flush } from './services/storage.js';
 import { initMonetization, onMonetization, adOnNavigate, getMonetization } from './services/monetization.js';
+import { initReferral } from './services/referral.js';
 import { sound } from './services/device.js';
 import { syncWatch, onWatchAction } from './services/native.js';
 import { t, setLang, detectLang } from './i18n/index.js';
@@ -173,6 +174,8 @@ async function boot() {
     }
   });
   initMonetization({ shouldBlockFullscreen: () => !S.data.profile.onboarded || Boolean(S.data.session) });
+  // Programma ambasciatori: invia dati solo se l'utente è arrivato da un invito
+  initReferral().then(render).catch(() => {});
 }
 
 boot();
