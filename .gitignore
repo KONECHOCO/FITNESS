@@ -21,3 +21,13 @@ ios/App/App/capacitor.config.json
 ios/App/App/config.xml
 ios/DerivedData/
 ios/App/build/
+
+# Android: build e percorsi locali (la chiave di firma sta fuori dal repo, in AURALIFT_ANDROID_SIGNING)
+android/local.properties
+android/app/src/main/assets/public/
+*.jks
+*.keystore
+
+# Grafiche Play rigenerabili con scripts/render-play-graphics.mjs
+store/play/**/*.png
+store/play/*.png

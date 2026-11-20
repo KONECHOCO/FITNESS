@@ -27,7 +27,8 @@ import { bodyForm, bodyValid } from '../pages/onboarding.js';
 import { getReferralState, canEnterCode, setReferralCode, referralUi } from '../services/referral.js';
 
 const PRIVACY_URL = 'https://konechoco.github.io/auralift/privacy-policy.html';
-const TERMS_URL = 'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/';
+const ANDROID = Capacitor.getPlatform() === 'android';
+const TERMS_URL = ANDROID ? 'https://play.google.com/about/play-terms/' : 'https://www.apple.com/legal/internet-services/itunes/dev/stdeula/';
 const SUPPORT_URL = 'https://konechoco.github.io/auralift/support.html';
 
 // ---------------------------------------------------------------- infrastruttura
@@ -369,7 +370,7 @@ const RENDER = {
         ${!pro ? `<p class="muted small center">${esc(t('pw_loading'))}</p>` : ''}` : `<p class="muted center">${esc(t('pw_unavailable'))}</p>`}`;
     const foot = `${m.native ? `<button class="btn btn-accent btn-block btn-lg" data-act="pw-buy" ${pro ? '' : 'disabled'}>${esc(t('pw_cta', { price }))}</button>` : ''}
       <button class="btn btn-text btn-block" data-act="sheet-close">${esc(t('pw_free'))}</button>
-      ${m.native ? `<p class="legal">${esc(t('pw_legal', { price: price || '—' }))}</p>
+      ${m.native ? `<p class="legal">${esc(t(ANDROID ? 'pw_legal_android' : 'pw_legal', { price: price || '—' }))}</p>
         <p class="legal"><button class="link" data-act="restore">${esc(t('st_restore'))}</button> · <a href="${TERMS_URL}" target="_blank" rel="noopener">${esc(t('st_terms'))}</a> · <a href="${PRIVACY_URL}" target="_blank" rel="noopener">${esc(t('st_privacy'))}</a></p>` : ''}`;
     return shell(s, '', body, { full: true, foot });
   }

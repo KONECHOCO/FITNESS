@@ -1,0 +1,42 @@
+AuraLift ist dein Personal Trainer für die Hosentasche – im Fitnessstudio oder zu Hause: Erfasse jeden Satz und sieh deine echten Fortschritte, berechnet nur aus deinen Daten.
+
+PLÄNE FÜR STUDIO UND ZUHAUSE
+• 12 fertige Pläne: Ganzkörper, Push/Pull/Beine, Ober-/Unterkörper, Kraft 5×5, Po, Eigengewicht, Kurzhanteln, Fettverbrenner und Bauch
+• Workout-Generator: wählt Übungen nach Ziel, Ausrüstung und bereits erholten Muskeln
+• Eigene Pläne erstellen und bearbeiten
+• Über 60 Übungen mit Anleitung und Muskelkarte
+
+TRAININGSPROTOKOLL
+• Gewicht, Wiederholungen und abgeschlossene Sätze mit wenigen Fingertipps
+• Spalte „Vorher“ mit den Werten der letzten Einheit
+• Vorschläge zur progressiven Überlastung: Die App sagt dir, wann du steigern kannst
+• Automatischer Pausentimer mit Ton, Vibration und Mitteilung
+• Persönliche Rekorde werden automatisch erkannt
+
+FORTSCHRITT UND REGENERATION
+• Muskelregenerationskarte aus den Sätzen der letzten 4 Tage
+• Wochenvolumen, Sätze pro Muskel, geschätztes 1RM pro Übung, Körpergewicht
+• 1RM-Rechner mit den Formeln nach Epley, Brzycki und Lander
+• Vollständiger Verlauf, Wochenserien und Erfolge
+
+ERNÄHRUNG
+• Kalorien- und Makroziele nach der Mifflin-St-Jeor-Formel
+• Tagebuch für Frühstück, Mittag- und Abendessen und Snacks mit Datenbank gängiger Lebensmittel und eigenen Lebensmitteln
+• Wasserzähler
+
+SMART COACH
+• Analysiert deine Workouts: Regeneration, Stagnation, Fortschritte, Volumen pro Muskel, Protein
+• Beantwortet Fragen zu Training und Ernährung mit wissenschaftlich fundierten Empfehlungen, angepasst an deine Daten
+• Allgemeine Informationen, kein Ersatz für ärztlichen Rat
+
+AUSSERDEM
+• Trainingserinnerungen, kg oder lb, 6 Sprachen
+• Deine Daten bleiben auf deinem Gerät: kein Konto nötig
+
+GRATISVERSION UND PRO
+AuraLift ist kostenlos, mit nicht personalisierter Werbung (auch ein Video beim Öffnen) und einigen Grenzen (3 eigene Pläne, 1 erstelltes Workout pro Tag, Verlauf der letzten 30 Tage).
+AuraLift Pro ist ein EINMALKAUF ohne Abo: Es entfernt die Werbung und schaltet Scheibenrechner, Farbthemen, unbegrenzte Pläne und Generator, den vollständigen Verlauf, erweiterte Diagramme, alle Analysen des Smart Coach und den Datenexport frei. Kostenlos auf allen deinen Geräten wiederherstellbar.
+
+Datenschutz: https://konechoco.github.io/auralift/privacy-policy.html
+
+Sprich mit deinem Arzt, bevor du ein neues Trainings- oder Ernährungsprogramm beginnst.

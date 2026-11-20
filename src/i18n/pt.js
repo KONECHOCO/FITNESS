@@ -151,6 +151,7 @@ export default {
   pw_f4: 'Histórico completo e gráficos de progresso', pw_f5: 'Análises completas do Smart Coach', pw_f6: 'Exportação de dados',
   pw_yearly: 'Anual', pw_monthly: 'Mensal', pw_per_month: '{p}/mês', pw_save: 'Economize {n}%', pw_trial_badge: '7 dias grátis',
   pw_cta_trial: 'Começar teste grátis', pw_cta: 'Desbloquear Pro · {price}', pw_free: 'Continuar com a versão gratuita',
+  pw_legal_android: 'Compra única de {price} cobrada na sua conta do Google Play. Sem assinatura e sem renovação. Restaure grátis em qualquer dispositivo com a mesma conta Google.',
   pw_legal: 'Compra única de {price} cobrada no seu ID Apple. Sem assinatura e sem renovação. Restaure grátis em todos os aparelhos com o mesmo ID Apple.',
   pw_unavailable: 'O AuraLift Pro é comprado no app para iPhone e iPad.', pw_error: 'Compra não concluída. Tente novamente.',
   pw_loading: 'Carregando preços…', pw_welcome: 'Bem-vindo ao Pro!',
